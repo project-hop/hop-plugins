@@ -43,7 +43,6 @@
         </property>
       </activation>
       <modules>
-        <module>actions</module>
       </modules>
     </profile>
 
@@ -55,6 +54,7 @@
         </property>
       </activation>
       <modules>
+        <module>syslog</module>
       </modules>
     </profile>
 
