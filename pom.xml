@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.apache.hop</groupId>
+  <version>0.70-SNAPSHOT</version>
+  <artifactId>hop-external-plugins</artifactId>
+  <name>${project.artifactId}</name>
+  <description>Plugins which can't be shipped with Hop</description>
+
+  <packaging>pom</packaging>
+
+  <licenses>
+	<license>
+		<name>Apache License, Version 2.0</name>
+		<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		<distribution>repo</distribution>
+		<comments>A business-friendly OSS license</comments>
+	</license>
+	<license>
+		<name>GNU Lesser General Public License, Version 2.1</name>
+		<url>https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</url>
+		<distribution>repo</distribution>
+	</license>
+	<license>
+		<name>GNU Lesser General Public License, Version 3.0</name>
+		<url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		<distribution>repo</distribution>
+        </license>
+  </licenses>
+
+  <properties>
+    <hop.version>0.70-SNAPSHOT</hop.version>
+
+    <source.jdk.version>1.8</source.jdk.version>
+    <target.jdk.version>1.8</target.jdk.version>
+    <maven.compiler.source>${source.jdk.version}</maven.compiler.source>
+    <maven.compiler.target>${target.jdk.version}</maven.compiler.target>
+    <maven.build.timestamp.format>yyyy-MM-dd hh.mm.ss</maven.build.timestamp.format>
+    <compilerArgument/>
+
+    <mockito-all.version>1.9.5</mockito-all.version>
+    <junit.version>4.13.1</junit.version>
+
+    <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
+    <maven-surefire-plugin.argLine>-Duser.timezone=UTC -Dfile.encoding=UTF-8 -Duser.language=en -Duser.country=US
+    </maven-surefire-plugin.argLine>
+    <attach-sources-phase>verify</attach-sources-phase>
+    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <maven-surefire-report-plugin.version>3.0.0-M4</maven-surefire-report-plugin.version>
+    <test-unit-execute-phase>test</test-unit-execute-phase>
+    <assembly_package-phase>package</assembly_package-phase>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven-surefire-plugin.reuseForks>true
+    </maven-surefire-plugin.reuseForks> <!-- default setting is reuseForks = true -->
+    <maven-surefire-plugin.forkCount>1</maven-surefire-plugin.forkCount> <!-- default setting is forkCount = 1 -->
+    <maven-surefire-plugin.testFailureIgnore>false</maven-surefire-plugin.testFailureIgnore>
+    <maven-surefire-plugin.argLine/>
+    <maven-failsafe-plugin.reuseForks>true
+    </maven-failsafe-plugin.reuseForks> <!-- default setting is reuseForks = true -->
+    <maven-failsafe-plugin.forkCount>1</maven-failsafe-plugin.forkCount> <!-- default setting is forkCount = 1 -->
+    <maven-failsafe-plugin.argLine/>
+
+    <jacoco-maven-plugin.version>0.8.1</jacoco-maven-plugin.version>
+    <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+    <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
+    <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+    <maven-assembly-plugin.version>3.1.0</maven-assembly-plugin.version>
+    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
+    <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+    <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+    <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
+    <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+    <maven-surefire-report-plugin.version>3.0.0-M4</maven-surefire-report-plugin.version>
+    <maven-verifier-plugin.version>1.1</maven-verifier-plugin.version>
+    <sonar-maven-plugin.version>3.5.0.1254</sonar-maven-plugin.version>
+    <maven-bundle-plugin.version>2.5.3</maven-bundle-plugin.version>
+    <karaf-maven-plugin.version>3.0.8</karaf-maven-plugin.version>
+    <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version>
+    <spotless-maven-plugin.version>2.4.2</spotless-maven-plugin.version>
+    <wagon-plugin.version>2.0.0</wagon-plugin.version>
+
+    <assembly_appendId>false</assembly_appendId>
+
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2/</url>
+      <name>Maven Central</name>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>eclipse-maven-repo</id>
+      <name>Eclipse Maven</name>
+      <url>https://mvnrepository.com</url>
+    </repository>
+    <repository>
+      <id>snapshot-repository.java.net</id>
+      <name>Java.net Snapshot Repository for Maven</name>
+      <url>https://maven.java.net/content/repositories/snapshots/</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
+
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>${attach-sources-phase}</phase>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${maven-bundle-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <!-- Required for generic jar version checking -->
+              <Implementation-Version>${project.version}</Implementation-Version>
+            </instructions>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>${maven-project-info-reports-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>${maven-jxr-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <configuration>
+            <doclint>none</doclint>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-verifier-plugin</artifactId>
+          <version>${maven-verifier-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <Source-Java-Version>${source.jdk.version}</Source-Java-Version>
+                <Target-Java-Version>${target.jdk.version}</Target-Java-Version>
+                <Implementation-ProductID>${project.artifactId}</Implementation-ProductID>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+          <configuration>
+            <source>${source.jdk.version}</source>
+            <target>${target.jdk.version}</target>
+            <compilerArgument>${compilerArgument}</compilerArgument>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>2.0.0</version>
+          <executions>
+            <execution>
+              <id>download-licenses</id>
+              <goals>
+                <goal>download-licenses</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${maven-release-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${maven-site-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-webdav-jackrabbit</artifactId>
+              <version>2.10</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build-helper-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${maven-assembly-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jboss.jandex</groupId>
+          <artifactId>jandex-maven-plugin</artifactId>
+          <version>${jandex-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+        </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless-maven-plugin.version}</version>
+          <configuration>
+            <!-- optional: limit format enforcement to just the files changed by
+                this feature branch -->
+            <!-- <ratchetFrom>origin/main</ratchetFrom> -->
+            <formats>
+              <!-- you can define as many formats as you want, each is independent -->
+              <format>
+                <!-- define the files to apply to -->
+                <includes>
+                  <include>*.md</include>
+                  <include>.gitignore</include>
+                </includes>
+                <!-- define the steps to apply to those files -->
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+                <indent>
+                  <tabs>true</tabs>
+                  <spacesPerTab>4</spacesPerTab>
+                </indent>
+              </format>
+            </formats>
+            <!-- define a language-specific format -->
+            <java>
+              <!-- no need to specify files, inferred automatically, but you can
+                  if you want -->
+
+              <!-- apply a specific flavor of google-java-format -->
+              <googleJavaFormat>
+                <version>1.9</version>
+              </googleJavaFormat>
+
+              <!-- make sure every file has the following copyright header. optionally,
+                  Spotless can set copyright years by digging through git history (see "license"
+                  section below) -->
+              <licenseHeader>
+                <content><![CDATA[/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */]]>
+                </content>  <!-- or <file>${basedir}/license-header</file> -->
+              </licenseHeader>
+            </java>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>coverage-initialize</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>**/*Dialog*</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>coverage-report</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>**/*Dialog*</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.jboss.jandex</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-test</id>
+            <phase>${test-unit-execute-phase}</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <argLine>@{argLine} -Dfile.encoding=${project.build.sourceEncoding}
+                ${maven-surefire-plugin.argLine}
+              </argLine> <!-- this is set by jacoco's prepare-agent execution -->
+              <forkCount>${maven-surefire-plugin.forkCount}</forkCount>
+              <reuseForks>${maven-surefire-plugin.reuseForks}</reuseForks>
+              <testFailureIgnore>${maven-surefire-plugin.testFailureIgnore}</testFailureIgnore>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>set-doc-version-property</id>
+            <goals>
+              <goal>parse-version</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>set-root-dir-property</id>
+            <goals>
+              <goal>rootlocation</goal>
+            </goals>
+            <configuration>
+              <rootLocationProperty>project.rootdir</rootLocationProperty>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-site-descriptor</id>
+            <goals>
+              <goal>attach-descriptor</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <version>0.13</version>
+        <configuration>
+          <excludeSubProjects>false</excludeSubProjects>
+          <consoleOutput>true</consoleOutput>
+          <excludes>
+
+            <!-- General Exclusions -->
+            <exclude>DISCLAIMER-WIP</exclude>
+            <exclude>LICENSE</exclude>
+            <exclude>NOTICE</exclude>
+            <exclude>**/licenses/*</exclude>
+            <exclude>**/target/**</exclude>
+            <exclude>**/*.svg</exclude>
+            <exclude>**/*.json</exclude>
+            <exclude>**/*.hpl</exclude>
+            <exclude>**/*.hwf</exclude>
+            <exclude>**/PUT_JDBC_HERE</exclude>
+            <exclude>**/hop.pwd</exclude>
+            <exclude>**/*.iml</exclude>
+
+            <!-- Unit Test Exclusions -->
+            <exclude>**/test/**/*.txt</exclude>
+            <exclude>**/test/**/*.xml</exclude>
+            <exclude>**/test/**/*.xsd</exclude>
+            <exclude>**/test/**/*.csv</exclude>
+            <exclude>**/test/**/*.csv.bz2</exclude>
+            <exclude>**/test/**/*.csv.gz</exclude>
+            <exclude>**/test/**/*.ods</exclude>
+            <exclude>**/test/**/*.xls</exclude>
+            <exclude>**/test/**/*.xlsx</exclude>
+            <exclude>**/test/**/*.edi</exclude>
+
+            <!-- Integration Test Exclusion -->
+            <exclude>**/datasets/*.csv</exclude>
+            <exclude>**/it/**/*.csv</exclude>
+
+            <!-- External Integration Test Exclusion -->
+            <exclude>**/integration-tests/**/*.txt</exclude>
+            <exclude>**/integration-tests/**/*.json</exclude>
+            <exclude>**/integration-tests/**/*.json.old</exclude>
+
+            <!-- Samples Exclusions -->
+            <!-- plugins/engines/beam -->
+            <exclude>**/src/main/samples/**/*.txt</exclude>
+            <exclude>**/src/main/samples/**/*.csv</exclude>
+
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>base</id>
+      <activation>
+        <property>
+          <name>!skipDefault</name>
+        </property>
+      </activation>
+      <modules>
+
+        <module>plugins</module>
+
+      </modules>
+    </profile>
+    <profile>
+      <id>assemblies</id>
+      <activation>
+        <property>
+          <name>!skipDefault</name>
+        </property>
+      </activation>
+      <modules>
+        <module>assemblies</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>filtered-resources</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/main/resources-filtered</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>add-filtered-resources</id>
+                <goals>
+                  <goal>add-resource</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <directory>src/main/resources-filtered</directory>
+                      <filtering>true</filtering>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>assembly</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/assembly/assembly.xml</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>assembly_package</id>
+                <phase>${assembly_package-phase}</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <descriptorSourceDirectory>${basedir}/src/assembly</descriptorSourceDirectory>
+                  <appendAssemblyId>${assembly_appendId}</appendAssemblyId>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>code-quality</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>${maven-checkstyle-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>validate</id>
+                <goals>
+                  <goal>check</goal>
+                </goals>
+                <phase>validate</phase>
+                <configuration>
+                  <configLocation>google_checks.xml</configLocation>
+                  <encoding>UTF-8</encoding>
+                  <failOnViolation>true</failOnViolation>
+                  <violationSeverity>warning</violationSeverity>
+                  <includeResources>false</includeResources>
+                  <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+
+</project>
+
