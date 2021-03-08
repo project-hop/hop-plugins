@@ -30,7 +30,7 @@
 
   <parent>
     <groupId>org.apache.hop</groupId>
-    <artifactId>hop-external-plugins</artifactId>
+    <artifactId>hop-external</artifactId>
     <version>0.70-SNAPSHOT</version>
   </parent>
 

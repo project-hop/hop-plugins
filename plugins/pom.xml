@@ -54,6 +54,7 @@
         </property>
       </activation>
       <modules>
+        <module>exceloutput</module>
         <module>ldifinput</module>
         <module>syslog</module>
       </modules>
