@@ -17,10 +17,9 @@
   ~
   -->
 
-<project
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -29,15 +28,10 @@
         <version>0.70-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hop-external-plugins-syslog</artifactId>
+    <artifactId>hop-external-plugins-ldifinput</artifactId>
     <packaging>jar</packaging>
 
-    <name>Hop plugins to send information using Syslog</name>
-
-    <properties>
-        <syslog4j.version>0.9.46</syslog4j.version>
-        <snmp4j.version>1.9.1f</snmp4j.version>
-    </properties>
+    <name>Hop Plugins Transforms LDIF Input</name>
 
     <dependencies>
         <dependency>
@@ -97,43 +91,11 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
-            <groupId>org.syslog4j</groupId>
-            <artifactId>syslog4j</artifactId>
-            <version>${syslog4j.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>ldapsdk</groupId>
+            <artifactId>ldapsdk</artifactId>
+            <version>4.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.snmp4j</groupId>
-            <artifactId>snmp4j</artifactId>
-            <version>${snmp4j.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>clojars</id>
-            <url>https://clojars.org/repo/</url>
-            <name>Clojars</name>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
 </project>

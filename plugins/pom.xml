@@ -22,15 +22,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.hop</groupId>
-  <artifactId>hop-plugins</artifactId>
+  <artifactId>hop-external-plugins</artifactId>
   <version>0.70-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Hop Plugins</name>
+  <name>Hop external plugins</name>
 
   <parent>
     <groupId>org.apache.hop</groupId>
-    <artifactId>hop-external-plugins</artifactId>
+    <artifactId>hop-external</artifactId>
     <version>0.70-SNAPSHOT</version>
   </parent>
 
@@ -54,6 +54,7 @@
         </property>
       </activation>
       <modules>
+        <module>ldifinput</module>
         <module>syslog</module>
       </modules>
     </profile>

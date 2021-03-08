@@ -5,7 +5,7 @@
 
   <groupId>org.apache.hop</groupId>
   <version>0.70-SNAPSHOT</version>
-  <artifactId>hop-external-plugins</artifactId>
+  <artifactId>hop-external</artifactId>
   <name>${project.artifactId}</name>
   <description>Plugins which can't be shipped with Hop</description>
 
