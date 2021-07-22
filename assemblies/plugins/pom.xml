@@ -29,13 +29,17 @@
   <parent>
     <artifactId>hop-external-plugins-assemblies</artifactId>
     <groupId>org.apache.hop</groupId>
-    <version>0.70-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
 
   <modules>
     <module>exceloutput</module>
     <module>ldifinput</module>
     <module>syslog</module>
+    <module>dropbox</module>
+    <module>mqtt</module>
+    <module>googlesheets</module>
+    <module>googleanalytics</module>
   </modules>
 
 </project>

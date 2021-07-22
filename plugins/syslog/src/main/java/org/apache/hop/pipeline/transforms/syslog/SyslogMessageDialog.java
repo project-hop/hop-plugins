@@ -352,7 +352,7 @@ public class SyslogMessageDialog extends BaseTransformDialog implements ITransfo
     // Add listeners
     wTest.addListener( SWT.Selection, e -> test());
 
-    lsDef = new SelectionAdapter() {
+    SelectionAdapter lsDef = new SelectionAdapter() {
       public void widgetDefaultSelected( SelectionEvent e ) {
         ok();
       }

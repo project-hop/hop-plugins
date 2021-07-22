@@ -1403,7 +1403,7 @@ public class ExcelOutputDialog extends BaseTransformDialog implements ITransform
     wGet.addListener( SWT.Selection, e -> get() );
     wMinWidth.addListener( SWT.Selection, e -> setMinimalWidth());
 
-    lsDef = new SelectionAdapter() {
+    SelectionAdapter lsDef = new SelectionAdapter() {
       @Override
       public void widgetDefaultSelected( SelectionEvent e ) {
         ok();

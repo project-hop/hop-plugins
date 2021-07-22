@@ -814,7 +814,7 @@ public class LDIFInputDialog extends BaseTransformDialog implements ITransformDi
 
     wGet.addListener( SWT.Selection, e -> get() );
 
-    lsDef = new SelectionAdapter() {
+    SelectionAdapter lsDef = new SelectionAdapter() {
       public void widgetDefaultSelected( SelectionEvent e ) {
         ok();
       }
@@ -1408,7 +1408,7 @@ public class LDIFInputDialog extends BaseTransformDialog implements ITransformDi
       getInfo( oneMeta );
 
       PipelineMeta previewMeta =
-        PipelinePreviewFactory.generatePreviewPipeline( variables, pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText() );
+        PipelinePreviewFactory.generatePreviewPipeline( pipelineMeta.getMetadataProvider(), oneMeta, wTransformName.getText() );
 
       EnterNumberDialog numberDialog = new EnterNumberDialog( shell, props.getDefaultPreviewSize(),
         BaseMessages.getString( PKG, "LDIFInputDialog.NumberRows.DialogTitle" ),

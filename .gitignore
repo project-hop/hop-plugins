@@ -1,5 +1,40 @@
-**/*.iml
-/.idea/
-**/*.zip
-**/*.class
-**/target/
+.project
+.classpath
+.settings
+build
+target
+release.properties
+pom.xml.releaseBackup
+*.iml
+.idea
+bin
+*.class
+*.jar
+*.war
+*.ear
+.DS_Store
+routes.yml
+*.tgf
+
+rebel.xml
+rebel-remote.xml
+out/
+logs/
+.directory
+\.attach*
+Pipeline Run Configuration/
+Workflow Run Configuration/
+Hop Server/
+Relational Database Connection/
+\.temp-beam-*/
+integration-tests/surefire-reports
+integration-tests/surefire-reports/spreadsheet/exelwriter-testfile.xlsx
+**/*.json.old
+yarn-error.log
+
+docs/content
+docs/public
+docs/resources
+docs/node_modules
+docs/.pnp
+docs/.pnp.js
