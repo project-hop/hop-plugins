@@ -16,6 +16,7 @@
   ~ limitations under the License.
   ~
   -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -28,18 +29,26 @@
     </parent>
 
 
-    <artifactId>hop-external-plugins-assemblies-googleanalytics</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <artifactId>hop-assemblies-plugins-transforms-vertica</artifactId>
     <packaging>pom</packaging>
 
-    <name>Hop Assemblies Plugins Transforms MQTT</name>
+    <name>Hop Assemblies Plugins Transforms Vertica Bulk Loader</name>
     <description></description>
+
+    <properties>
+        <vertica.jdbc.version>10.1.1-0</vertica.jdbc.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.hop</groupId>
-            <artifactId>hop-external-plugins-googleanalytics</artifactId>
+            <artifactId>hop-external-plugins-vertica</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vertica.jdbc</groupId>
+            <artifactId>vertica-jdbc</artifactId>
+            <version>${vertica.jdbc.version}</version>
         </dependency>
     </dependencies>
 </project>
