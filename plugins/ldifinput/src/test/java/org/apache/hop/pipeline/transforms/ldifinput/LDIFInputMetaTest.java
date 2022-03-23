@@ -135,7 +135,7 @@ public class LDIFInputMetaTest implements IInitializer<ITransformMeta> {
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
     loadSaveTester =
-      new LoadSaveTester( LDIFInputMeta.class, attributes, new ArrayList<>(),
+      new LoadSaveTester( LDIFInputMeta.class, attributes,
         getterMap, setterMap, attrValidatorMap, typeValidatorMap, this );
   }
 

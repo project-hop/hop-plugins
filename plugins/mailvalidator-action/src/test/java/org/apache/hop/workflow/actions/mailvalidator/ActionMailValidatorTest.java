@@ -39,11 +39,6 @@ public class ActionMailValidatorTest
   }
 
   @Override
-  protected List<String> listCommonAttributes() {
-    return Arrays.asList("smtpCheck", "timeout", "defaultSMTP", "emailSender", "emailAddress");
-  }
-
-  @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
         "smtpCheck", "isSMTPCheck",

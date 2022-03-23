@@ -47,7 +47,7 @@ public class ExcelOutputMetaTest implements IInitializer<ITransformMeta> {
   @Before
   public void setUpLoadSave() throws Exception {
     HopEnvironment.init();
-    PluginRegistry.init( false );
+    PluginRegistry.init();
     List<String> attributes =
       Arrays.asList( "headerFontName", "headerFontSize", "headerFontBold", "headerFontItalic", "headerFontUnderline",
         "headerFontOrientation", "headerFontColor", "headerBackGroundColor", "headerRowHeight", "headerAlignment",
@@ -83,7 +83,7 @@ public class ExcelOutputMetaTest implements IInitializer<ITransformMeta> {
     Map<String, IFieldLoadSaveValidator<?>> typeValidatorMap = new HashMap<>();
 
     loadSaveTester =
-      new LoadSaveTester( testMetaClass, attributes, new ArrayList<>(),
+      new LoadSaveTester( testMetaClass, attributes,
         getterMap, setterMap, attrValidatorMap, typeValidatorMap, this );
   }
 

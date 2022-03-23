@@ -33,19 +33,6 @@ public class WorkflowActionSyslogTest extends WorkflowActionLoadSaveTestSupport<
   }
 
   @Override
-  protected List<String> listCommonAttributes() {
-    return Arrays.asList(
-      "serverName",
-      "port",
-      "message",
-      "facility",
-      "priority",
-      "datePattern",
-      "addTimestamp",
-      "addHostname" );
-  }
-
-  @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
       "serverName", "getServerName",
