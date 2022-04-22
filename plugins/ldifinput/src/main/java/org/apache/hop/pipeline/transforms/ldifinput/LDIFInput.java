@@ -24,55 +24,54 @@ import netscape.ldap.util.LDIFContent;
 import org.apache.hop.core.Const;
 import org.apache.hop.core.ResultFile;
 import org.apache.hop.core.exception.HopException;
-import org.apache.hop.core.row.RowDataUtil;
-import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.IValueMeta;
+import org.apache.hop.core.row.RowDataUtil;
+import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.vfs.HopVfs;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
-import org.apache.hop.pipeline.transform.ITransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.util.Date;
 import java.util.Enumeration;
 
-/**
- * Read all LDIF files, convert them to rows and writes these to one or more output streams.
- *
- * @author Samatar
- * @since 24-05-2007
- */
-public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> implements ITransform<LDIFInputMeta, LDIFInputData> {
+/** Read all LDIF files, convert them to rows and writes these to one or more output streams. */
+public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> {
   private static final Class<?> PKG = LDIFInputMeta.class; // For Translator
 
-
-  public LDIFInput( TransformMeta transformMeta, LDIFInputMeta meta, LDIFInputData data, int copyNr, PipelineMeta pipelineMeta,
-                    Pipeline pipeline ) {
-    super( transformMeta, meta, data, copyNr, pipelineMeta, pipeline );
+  public LDIFInput(
+      TransformMeta transformMeta,
+      LDIFInputMeta meta,
+      LDIFInputData data,
+      int copyNr,
+      PipelineMeta pipelineMeta,
+      Pipeline pipeline) {
+    super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
   }
 
   private Object[] getOneRow() throws HopException {
 
     try {
-      if ( meta.isFileField() ) {
-        while ( ( data.readrow == null || ( ( data.recordLDIF = data.InputLDIF.nextRecord() ) == null ) ) ) {
-          if ( !openNextFile() ) {
+      if (meta.isFileField()) {
+        while ((data.readrow == null
+            || ((data.recordLDIF = data.InputLDIF.nextRecord()) == null))) {
+          if (!openNextFile()) {
             return null;
           }
         }
       } else {
-        while ( ( data.file == null ) || ( ( data.recordLDIF = data.InputLDIF.nextRecord() ) == null ) ) {
-          if ( !openNextFile() ) {
+        while ((data.file == null) || ((data.recordLDIF = data.InputLDIF.nextRecord()) == null)) {
+          if (!openNextFile()) {
             return null;
           }
         }
       }
 
-    } catch ( Exception IO ) {
+    } catch (Exception IO) {
       return null;
     }
 
@@ -80,34 +79,36 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
     LDIFContent contentLDIF = data.recordLDIF.getContent();
     String contentTYPE = "ATTRIBUTE_CONTENT";
 
-    switch ( contentLDIF.getType() ) {
+    switch (contentLDIF.getType()) {
       case LDIFContent.DELETE_CONTENT:
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.ContentType", "DELETE_CONTENT" ) );
+        if (isDetailed()) {
+          logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.ContentType", "DELETE_CONTENT"));
         }
         contentTYPE = "DELETE_CONTENT";
         break;
       case LDIFContent.ADD_CONTENT:
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.ContentType", "ADD_CONTENT" ) );
+        if (isDetailed()) {
+          logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.ContentType", "ADD_CONTENT"));
         }
         contentTYPE = "ADD_CONTENT";
         break;
       case LDIFContent.MODDN_CONTENT:
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.ContentType", "MODDN_CONTENT" ) );
+        if (isDetailed()) {
+          logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.ContentType", "MODDN_CONTENT"));
         }
         contentTYPE = "MODDN_CONTENT";
         break;
       case LDIFContent.MODIFICATION_CONTENT:
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.ContentType", "MODIFICATION_CONTENT" ) );
+        if (isDetailed()) {
+          logDetailed(
+              BaseMessages.getString(PKG, "LDIFInput.Log.ContentType", "MODIFICATION_CONTENT"));
         }
         contentTYPE = "MODIFICATION_CONTENT";
         break;
       default:
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.ContentType", "ATTRIBUTE_CONTENT" ) );
+        if (isDetailed()) {
+          logDetailed(
+              BaseMessages.getString(PKG, "LDIFInput.Log.ContentType", "ATTRIBUTE_CONTENT"));
         }
         break;
     }
@@ -120,29 +121,29 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
     Object[] outputRowData = buildEmptyRow();
 
     // Create new row or clone
-    if ( meta.isFileField() ) {
-      System.arraycopy( data.readrow, 0, outputRowData, 0, data.readrow.length );
+    if (meta.isFileField()) {
+      System.arraycopy(data.readrow, 0, outputRowData, 0, data.readrow.length);
     }
 
     try {
       // Execute for each Input field...
-      for ( int i = 0; i < meta.getInputFields().length; i++ ) {
-        LDIFInputField ldifInputField = meta.getInputFields()[ i ];
+      for (int i = 0; i < meta.getInputFields().length; i++) {
+        LDIFInputField ldifInputField = meta.getInputFields()[i];
         // Get the Attribut to look for
-        String AttributValue = resolve( ldifInputField.getAttribut() );
+        String AttributValue = resolve(ldifInputField.getAttribut());
 
-        String Value = GetValue( data.attributes_LDIF, AttributValue );
+        String Value = GetValue(data.attributes_LDIF, AttributValue);
 
         // Do trimming
-        switch ( ldifInputField.getTrimType() ) {
+        switch (ldifInputField.getTrimType()) {
           case LDIFInputField.TYPE_TRIM_LEFT:
-            Value = Const.ltrim( Value );
+            Value = Const.ltrim(Value);
             break;
           case LDIFInputField.TYPE_TRIM_RIGHT:
-            Value = Const.rtrim( Value );
+            Value = Const.rtrim(Value);
             break;
           case LDIFInputField.TYPE_TRIM_BOTH:
-            Value = Const.trim( Value );
+            Value = Const.trim(Value);
             break;
           default:
             break;
@@ -150,80 +151,85 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
 
         // Do conversions
         //
-        IValueMeta targetValueMeta = data.outputRowMeta.getValueMeta( data.totalpreviousfields + i );
-        IValueMeta sourceValueMeta = data.convertRowMeta.getValueMeta( data.totalpreviousfields + i );
-        outputRowData[ data.totalpreviousfields + i ] = targetValueMeta.convertData( sourceValueMeta, Value );
+        IValueMeta targetValueMeta = data.outputRowMeta.getValueMeta(data.totalpreviousfields + i);
+        IValueMeta sourceValueMeta = data.convertRowMeta.getValueMeta(data.totalpreviousfields + i);
+        outputRowData[data.totalpreviousfields + i] =
+            targetValueMeta.convertData(sourceValueMeta, Value);
 
         // Do we need to repeat this field if it is null?
-        if ( meta.getInputFields()[ i ].isRepeated() ) {
-          if ( data.previousRow != null && Utils.isEmpty( Value ) ) {
-            outputRowData[ data.totalpreviousfields + i ] = data.previousRow[ data.totalpreviousfields + i ];
+        if (meta.getInputFields()[i].isRepeated()) {
+          if (data.previousRow != null && Utils.isEmpty(Value)) {
+            outputRowData[data.totalpreviousfields + i] =
+                data.previousRow[data.totalpreviousfields + i];
           }
         }
       } // End of loop over fields...
       int rowIndex = data.totalpreviousfields + meta.getInputFields().length;
 
       // See if we need to add the filename to the row...
-      if ( meta.includeFilename() && !Utils.isEmpty( meta.getFilenameField() ) ) {
-        outputRowData[ rowIndex++ ] = data.filename;
+      if (meta.includeFilename() && !Utils.isEmpty(meta.getFilenameField())) {
+        outputRowData[rowIndex++] = data.filename;
       }
       // See if we need to add the row number to the row...
-      if ( meta.includeRowNumber() && !Utils.isEmpty( meta.getRowNumberField() ) ) {
-        outputRowData[ data.totalpreviousfields + rowIndex++ ] = new Long( data.rownr );
+      if (meta.includeRowNumber() && !Utils.isEmpty(meta.getRowNumberField())) {
+        outputRowData[data.totalpreviousfields + rowIndex++] = new Long(data.rownr);
       }
 
       // See if we need to add the content type to the row...
-      if ( meta.includeContentType() && !Utils.isEmpty( meta.getContentTypeField() ) ) {
-        outputRowData[ data.totalpreviousfields + rowIndex++ ] = contentTYPE;
+      if (meta.includeContentType() && !Utils.isEmpty(meta.getContentTypeField())) {
+        outputRowData[data.totalpreviousfields + rowIndex++] = contentTYPE;
       }
 
       // See if we need to add the DN to the row...
-      if ( meta.IncludeDN() && !Utils.isEmpty( meta.getDNField() ) ) {
-        outputRowData[ data.totalpreviousfields + rowIndex++ ] = data.recordLDIF.getDN();
+      if (meta.IncludeDN() && !Utils.isEmpty(meta.getDNField())) {
+        outputRowData[data.totalpreviousfields + rowIndex++] = data.recordLDIF.getDN();
       }
       // Possibly add short filename...
-      if ( meta.getShortFileNameField() != null && meta.getShortFileNameField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.shortFilename;
+      if (meta.getShortFileNameField() != null && meta.getShortFileNameField().length() > 0) {
+        outputRowData[rowIndex++] = data.shortFilename;
       }
       // Add Extension
-      if ( meta.getExtensionField() != null && meta.getExtensionField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.extension;
+      if (meta.getExtensionField() != null && meta.getExtensionField().length() > 0) {
+        outputRowData[rowIndex++] = data.extension;
       }
       // add path
-      if ( meta.getPathField() != null && meta.getPathField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.path;
+      if (meta.getPathField() != null && meta.getPathField().length() > 0) {
+        outputRowData[rowIndex++] = data.path;
       }
       // Add Size
-      if ( meta.getSizeField() != null && meta.getSizeField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = new Long( data.size );
+      if (meta.getSizeField() != null && meta.getSizeField().length() > 0) {
+        outputRowData[rowIndex++] = new Long(data.size);
       }
       // add Hidden
-      if ( meta.isHiddenField() != null && meta.isHiddenField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = new Boolean( data.hidden );
+      if (meta.isHiddenField() != null && meta.isHiddenField().length() > 0) {
+        outputRowData[rowIndex++] = new Boolean(data.hidden);
       }
       // Add modification date
-      if ( meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.lastModificationDateTime;
+      if (meta.getLastModificationDateField() != null
+          && meta.getLastModificationDateField().length() > 0) {
+        outputRowData[rowIndex++] = data.lastModificationDateTime;
       }
       // Add Uri
-      if ( meta.getUriField() != null && meta.getUriField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.uriName;
+      if (meta.getUriField() != null && meta.getUriField().length() > 0) {
+        outputRowData[rowIndex++] = data.uriName;
       }
       // Add RootUri
-      if ( meta.getRootUriField() != null && meta.getRootUriField().length() > 0 ) {
-        outputRowData[ rowIndex++ ] = data.rootUriName;
+      if (meta.getRootUriField() != null && meta.getRootUriField().length() > 0) {
+        outputRowData[rowIndex++] = data.rootUriName;
       }
       IRowMeta irow = getInputRowMeta();
 
-      data.previousRow = irow == null ? outputRowData : irow.cloneRow( outputRowData ); // copy it to make
+      data.previousRow =
+          irow == null ? outputRowData : irow.cloneRow(outputRowData); // copy it to make
       // surely the next transform doesn't change it in between...
 
       incrementLinesInput();
       data.rownr++;
 
-    } catch ( Exception e ) {
-      throw new HopException( BaseMessages.getString( PKG, "LDIFInput.Exception.UnableToReadFile", data.file
-        .toString() ), e );
+    } catch (Exception e) {
+      throw new HopException(
+          BaseMessages.getString(PKG, "LDIFInput.Exception.UnableToReadFile", data.file.toString()),
+          e);
     }
 
     return outputRowData;
@@ -239,31 +245,32 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
     try {
       // Grab one row
       Object[] outputRowData = getOneRow();
-      if ( outputRowData == null ) {
+      if (outputRowData == null) {
         setOutputDone(); // signal end to receiver(s)
         return false; // end of data or error.
       }
 
-      putRow( data.outputRowMeta, outputRowData ); // copy row to output rowset(s);
+      putRow(data.outputRowMeta, outputRowData); // copy row to output rowset(s);
 
-      if ( meta.getRowLimit() > 0 && data.rownr > meta.getRowLimit() ) { // limit has been reached: stop now.
+      if (meta.getRowLimit() > 0
+          && data.rownr > meta.getRowLimit()) { // limit has been reached: stop now.
         setOutputDone();
         return false;
       }
-    } catch ( HopException e ) {
-      if ( getTransformMeta().isDoingErrorHandling() ) {
+    } catch (HopException e) {
+      if (getTransformMeta().isDoingErrorHandling()) {
         sendToErrorRow = true;
         errorMessage = e.toString();
       } else {
-        logError( BaseMessages.getString( PKG, "LDIFInput.ErrorInTransformRunning", e.getMessage() ) );
-        setErrors( 1 );
+        logError(BaseMessages.getString(PKG, "LDIFInput.ErrorInTransformRunning", e.getMessage()));
+        setErrors(1);
         stopAll();
         setOutputDone(); // signal end to receiver(s)
         return false;
       }
-      if ( sendToErrorRow ) {
+      if (sendToErrorRow) {
         // Simply add this row to the error row
-        putError( getInputRowMeta(), r, 1, errorMessage, null, "LDIFInput001" );
+        putError(getInputRowMeta(), r, 1, errorMessage, null, "LDIFInput001");
       }
     }
     return true;
@@ -271,143 +278,162 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
 
   private boolean openNextFile() {
     try {
-      if ( !meta.isFileField() ) {
-        if ( data.filenr >= data.files.nrOfFiles() ) {
+      if (!meta.isFileField()) {
+        if (data.filenr >= data.files.nrOfFiles()) {
           // finished processing!
 
-          if ( isDetailed() ) {
-            logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.FinishedProcessing" ) );
+          if (isDetailed()) {
+            logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.FinishedProcessing"));
           }
           return false;
         }
 
         // Is this the last file?
-        data.last_file = ( data.filenr == data.files.nrOfFiles() - 1 );
-        data.file = data.files.getFile( data.filenr );
+        data.last_file = (data.filenr == data.files.nrOfFiles() - 1);
+        data.file = data.files.getFile(data.filenr);
 
         // Move file pointer ahead!
         data.filenr++;
       } else {
         data.readrow = getRow(); // Get row from input rowset & set row busy!
-        if ( data.readrow == null ) {
-          if ( isDetailed() ) {
-            logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.FinishedProcessing" ) );
+        if (data.readrow == null) {
+          if (isDetailed()) {
+            logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.FinishedProcessing"));
           }
           return false;
         }
 
-        if ( first ) {
+        if (first) {
           first = false;
 
           data.inputRowMeta = getInputRowMeta();
           data.outputRowMeta = data.inputRowMeta.clone();
-          meta.getFields( data.outputRowMeta, getTransformName(), null, null, this, metadataProvider );
+          meta.getFields(
+              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Get total previous fields
           data.totalpreviousfields = data.inputRowMeta.size();
 
           // Create convert meta-data objects that will contain Date & Number formatters
-          data.convertRowMeta = data.outputRowMeta.cloneToType( IValueMeta.TYPE_STRING );
+          data.convertRowMeta = data.outputRowMeta.cloneToType(IValueMeta.TYPE_STRING);
 
           // Check is filename field is provided
-          if ( Utils.isEmpty( meta.getDynamicFilenameField() ) ) {
-            logError( BaseMessages.getString( PKG, "LDIFInput.Log.NoField" ) );
-            throw new HopException( BaseMessages.getString( PKG, "LDIFInput.Log.NoField" ) );
+          if (Utils.isEmpty(meta.getDynamicFilenameField())) {
+            logError(BaseMessages.getString(PKG, "LDIFInput.Log.NoField"));
+            throw new HopException(BaseMessages.getString(PKG, "LDIFInput.Log.NoField"));
           }
 
           // cache the position of the field
-          if ( data.indexOfFilenameField < 0 ) {
-            data.indexOfFilenameField = getInputRowMeta().indexOfValue( meta.getDynamicFilenameField() );
-            if ( data.indexOfFilenameField < 0 ) {
+          if (data.indexOfFilenameField < 0) {
+            data.indexOfFilenameField =
+                getInputRowMeta().indexOfValue(meta.getDynamicFilenameField());
+            if (data.indexOfFilenameField < 0) {
               // The field is unreachable !
-              logError( BaseMessages.getString( PKG, "LDIFInput.Log.ErrorFindingField" )
-                + "[" + meta.getDynamicFilenameField() + "]" );
-              throw new HopException( BaseMessages.getString(
-                PKG, "LDIFInput.Exception.CouldnotFindField", meta.getDynamicFilenameField() ) );
+              logError(
+                  BaseMessages.getString(PKG, "LDIFInput.Log.ErrorFindingField")
+                      + "["
+                      + meta.getDynamicFilenameField()
+                      + "]");
+              throw new HopException(
+                  BaseMessages.getString(
+                      PKG,
+                      "LDIFInput.Exception.CouldnotFindField",
+                      meta.getDynamicFilenameField()));
             }
           }
-
         } // End if first
-        String filename = resolve( getInputRowMeta().getString( data.readrow, data.indexOfFilenameField ) );
-        if ( isDetailed() ) {
-          logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.FilenameInStream", meta
-            .getDynamicFilenameField(), filename ) );
+        String filename =
+            resolve(getInputRowMeta().getString(data.readrow, data.indexOfFilenameField));
+        if (isDetailed()) {
+          logDetailed(
+              BaseMessages.getString(
+                  PKG, "LDIFInput.Log.FilenameInStream", meta.getDynamicFilenameField(), filename));
         }
 
-        data.file = HopVfs.getFileObject( filename );
+        data.file = HopVfs.getFileObject(filename);
       }
-      data.filename = HopVfs.getFilename( data.file );
+      data.filename = HopVfs.getFilename(data.file);
       // Add additional fields?
-      if ( meta.getShortFileNameField() != null && meta.getShortFileNameField().length() > 0 ) {
+      if (meta.getShortFileNameField() != null && meta.getShortFileNameField().length() > 0) {
         data.shortFilename = data.file.getName().getBaseName();
       }
       try {
 
-        if ( meta.getPathField() != null && meta.getPathField().length() > 0 ) {
-          data.path = HopVfs.getFilename( data.file.getParent() );
+        if (meta.getPathField() != null && meta.getPathField().length() > 0) {
+          data.path = HopVfs.getFilename(data.file.getParent());
         }
-        if ( meta.isHiddenField() != null && meta.isHiddenField().length() > 0 ) {
+        if (meta.isHiddenField() != null && meta.isHiddenField().length() > 0) {
           data.hidden = data.file.isHidden();
         }
-        if ( meta.getExtensionField() != null && meta.getExtensionField().length() > 0 ) {
+        if (meta.getExtensionField() != null && meta.getExtensionField().length() > 0) {
           data.extension = data.file.getName().getExtension();
         }
-        if ( meta.getLastModificationDateField() != null && meta.getLastModificationDateField().length() > 0 ) {
-          data.lastModificationDateTime = new Date( data.file.getContent().getLastModifiedTime() );
+        if (meta.getLastModificationDateField() != null
+            && meta.getLastModificationDateField().length() > 0) {
+          data.lastModificationDateTime = new Date(data.file.getContent().getLastModifiedTime());
         }
-        if ( meta.getUriField() != null && meta.getUriField().length() > 0 ) {
+        if (meta.getUriField() != null && meta.getUriField().length() > 0) {
           data.uriName = data.file.getName().getURI();
         }
-        if ( meta.getRootUriField() != null && meta.getRootUriField().length() > 0 ) {
+        if (meta.getRootUriField() != null && meta.getRootUriField().length() > 0) {
           data.rootUriName = data.file.getName().getRootURI();
         }
-        if ( meta.getSizeField() != null && meta.getSizeField().length() > 0 ) {
-          data.size = new Long( data.file.getContent().getSize() );
+        if (meta.getSizeField() != null && meta.getSizeField().length() > 0) {
+          data.size = new Long(data.file.getContent().getSize());
         }
-      } catch ( Exception e ) {
-        throw new HopException( e );
+      } catch (Exception e) {
+        throw new HopException(e);
       }
-      if ( isDetailed() ) {
-        logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.OpeningFile", data.file.toString() ) );
+      if (isDetailed()) {
+        logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.OpeningFile", data.file.toString()));
       }
 
-      if ( meta.AddToResultFilename() ) {
+      if (meta.AddToResultFilename()) {
         // Add this to the result file names...
         ResultFile resultFile =
-          new ResultFile( ResultFile.FILE_TYPE_GENERAL, data.file, getPipelineMeta().getName(), getTransformName() );
-        resultFile.setComment( BaseMessages.getString( PKG, "LDIFInput.Log.FileAddedResult" ) );
-        addResultFile( resultFile );
+            new ResultFile(
+                ResultFile.FILE_TYPE_GENERAL,
+                data.file,
+                getPipelineMeta().getName(),
+                getTransformName());
+        resultFile.setComment(BaseMessages.getString(PKG, "LDIFInput.Log.FileAddedResult"));
+        addResultFile(resultFile);
       }
 
-      data.InputLDIF = new LDIF( HopVfs.getFilename( data.file ) );
+      data.InputLDIF = new LDIF(HopVfs.getFilename(data.file));
 
-      if ( isDetailed() ) {
-        logDetailed( BaseMessages.getString( PKG, "LDIFInput.Log.FileOpened", data.file.toString() ) );
+      if (isDetailed()) {
+        logDetailed(BaseMessages.getString(PKG, "LDIFInput.Log.FileOpened", data.file.toString()));
       }
 
-    } catch ( Exception e ) {
-      logError( BaseMessages.getString( PKG, "LDIFInput.Log.UnableToOpenFile", "" + data.filenr, data.file
-        .toString(), e.toString() ) );
+    } catch (Exception e) {
+      logError(
+          BaseMessages.getString(
+              PKG,
+              "LDIFInput.Log.UnableToOpenFile",
+              "" + data.filenr,
+              data.file.toString(),
+              e.toString()));
       stopAll();
-      setErrors( 1 );
+      setErrors(1);
       return false;
     }
     return true;
   }
 
-  @SuppressWarnings( "unchecked" )
-  private String GetValue( LDAPAttribute[] attributes_LDIF, String AttributValue ) {
+  @SuppressWarnings("unchecked")
+  private String GetValue(LDAPAttribute[] attributes_LDIF, String AttributValue) {
     String Stringvalue = null;
     int i = 0;
 
-    for ( int j = 0; j < attributes_LDIF.length; j++ ) {
-      LDAPAttribute attribute_DIF = attributes_LDIF[ j ];
-      if ( attribute_DIF.getName().equalsIgnoreCase( AttributValue ) ) {
+    for (int j = 0; j < attributes_LDIF.length; j++) {
+      LDAPAttribute attribute_DIF = attributes_LDIF[j];
+      if (attribute_DIF.getName().equalsIgnoreCase(AttributValue)) {
         Enumeration<String> valuesLDIF = attribute_DIF.getStringValues();
 
-        while ( valuesLDIF.hasMoreElements() ) {
+        while (valuesLDIF.hasMoreElements()) {
           String valueLDIF = valuesLDIF.nextElement();
-          if ( i == 0 ) {
+          if (i == 0) {
             Stringvalue = valueLDIF;
           } else {
             Stringvalue = Stringvalue + data.multiValueSeparator + valueLDIF;
@@ -425,34 +451,35 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
    * @return
    */
   private Object[] buildEmptyRow() {
-    Object[] rowData = RowDataUtil.allocateRowData( data.outputRowMeta.size() );
+    Object[] rowData = RowDataUtil.allocateRowData(data.outputRowMeta.size());
 
     return rowData;
   }
 
   public boolean init() {
 
-    if ( super.init() ) {
-      if ( !meta.isFileField() ) {
-        data.files = meta.getFiles( this );
-        if ( data.files.nrOfFiles() == 0 && data.files.nrOfMissingFiles() == 0 ) {
-          logError( BaseMessages.getString( PKG, "LDIFInput.Log.NoFiles" ) );
+    if (super.init()) {
+      if (!meta.isFileField()) {
+        data.files = meta.getFiles(this);
+        if (data.files.nrOfFiles() == 0 && data.files.nrOfMissingFiles() == 0) {
+          logError(BaseMessages.getString(PKG, "LDIFInput.Log.NoFiles"));
           return false;
         }
         try {
           // Create the output row meta-data
           data.outputRowMeta = new RowMeta();
 
-          meta.getFields( data.outputRowMeta, getTransformName(), null, null, this, metadataProvider );
+          meta.getFields(
+              data.outputRowMeta, getTransformName(), null, null, this, metadataProvider);
 
           // Create convert meta-data objects that will contain Date & Number formatters
-          data.convertRowMeta = data.outputRowMeta.cloneToType( IValueMeta.TYPE_STRING );
+          data.convertRowMeta = data.outputRowMeta.cloneToType(IValueMeta.TYPE_STRING);
 
           data.nrInputFields = meta.getInputFields().length;
-          data.multiValueSeparator = resolve( meta.getMultiValuedSeparator() );
-        } catch ( Exception e ) {
-          logError( "Error initializing transform: " + e.toString() );
-           e.printStackTrace();
+          data.multiValueSeparator = resolve(meta.getMultiValuedSeparator());
+        } catch (Exception e) {
+          logError("Error initializing transform: " + e.toString());
+          e.printStackTrace();
           return false;
         }
       }
@@ -464,26 +491,22 @@ public class LDIFInput extends BaseTransform<LDIFInputMeta, LDIFInputData> imple
   }
 
   public void dispose() {
-    if ( data.file != null ) {
+    if (data.file != null) {
       try {
         data.file.close();
-      } catch ( Exception e ) {
+      } catch (Exception e) {
         // Ignore errors
       }
     }
-    if ( data.InputLDIF != null ) {
+    if (data.InputLDIF != null) {
       data.InputLDIF = null;
     }
-    if ( data.attributes_LDIF != null ) {
+    if (data.attributes_LDIF != null) {
       data.attributes_LDIF = null;
     }
-    if ( data.recordLDIF != null ) {
+    if (data.recordLDIF != null) {
       data.recordLDIF = null;
     }
     super.dispose();
   }
-
-
-
-
 }

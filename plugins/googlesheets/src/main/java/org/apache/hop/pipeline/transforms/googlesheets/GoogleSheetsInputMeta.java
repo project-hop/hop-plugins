@@ -35,10 +35,8 @@ import org.apache.hop.core.row.value.ValueMetaString;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.w3c.dom.Node;
 
@@ -55,9 +53,8 @@ import java.util.List;
 @InjectionSupported(
     localizationPrefix = "GoogleSheetsInput.injection.",
     groups = {"SHEET", "INPUT_FIELDS"})
-public class GoogleSheetsInputMeta extends BaseTransformMeta
-    implements ITransformMeta<
-  GoogleSheetsInput, GoogleSheetsInputData> {
+public class GoogleSheetsInputMeta
+    extends BaseTransformMeta<GoogleSheetsInput, GoogleSheetsInputData> {
 
   public GoogleSheetsInputMeta() {
     super();
@@ -305,21 +302,6 @@ public class GoogleSheetsInputMeta extends BaseTransformMeta
               "No input received from other transforms.",
               transformMeta));
     }
-  }
-
-  @Override
-  public GoogleSheetsInput createTransform(
-      TransformMeta transformMeta,
-      GoogleSheetsInputData iTransformData,
-      int cnr,
-      PipelineMeta pm,
-      Pipeline pipeline) {
-    return new GoogleSheetsInput(transformMeta, this, iTransformData, cnr, pm, pipeline);
-  }
-
-  @Override
-  public GoogleSheetsInputData getTransformData() {
-    return new GoogleSheetsInputData();
   }
 
   @Override

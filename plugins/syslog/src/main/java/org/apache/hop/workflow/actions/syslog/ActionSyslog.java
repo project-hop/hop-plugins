@@ -37,12 +37,7 @@ import org.w3c.dom.Node;
 
 import java.util.List;
 
-/**
- * This defines a Syslog action.
- *
- * @author Samatar
- * @since 05-01-2010
- */
+/** This defines a Syslog action. */
 @Action(
     id = "SYSLOG",
     name = "i18n::ActionSyslog.Name",
@@ -117,42 +112,58 @@ public class ActionSyslog extends ActionBase implements Cloneable, IAction {
     }
   }
 
-  /** @return Returns the serverName. */
+  /**
+   * @return Returns the serverName.
+   */
   public String getServerName() {
     return serverName;
   }
 
-  /** @param serverName The serverName to set. */
+  /**
+   * @param serverName The serverName to set.
+   */
   public void setServerName(String serverName) {
     this.serverName = serverName;
   }
 
-  /** @return Returns the Facility. */
+  /**
+   * @return Returns the Facility.
+   */
   public String getFacility() {
     return facility;
   }
 
-  /** @param facility The facility to set. */
+  /**
+   * @param facility The facility to set.
+   */
   public void setFacility(String facility) {
     this.facility = facility;
   }
 
-  /** @param priority The priority to set. */
+  /**
+   * @param priority The priority to set.
+   */
   public void setPriority(String priority) {
     this.priority = priority;
   }
 
-  /** @return Returns the priority. */
+  /**
+   * @return Returns the priority.
+   */
   public String getPriority() {
     return priority;
   }
 
-  /** @param message The message to set. */
+  /**
+   * @param message The message to set.
+   */
   public void setMessage(String message) {
     this.message = message;
   }
 
-  /** @return Returns the comString. */
+  /**
+   * @return Returns the comString.
+   */
   public String getMessage() {
     return message;
   }
@@ -161,7 +172,9 @@ public class ActionSyslog extends ActionBase implements Cloneable, IAction {
     this.addTimestamp = value;
   }
 
-  /** @return Returns the addHostname. */
+  /**
+   * @return Returns the addHostname.
+   */
   public boolean isAddHostName() {
     return addHostname;
   }
@@ -170,27 +183,37 @@ public class ActionSyslog extends ActionBase implements Cloneable, IAction {
     this.addHostname = value;
   }
 
-  /** @return Returns the addTimestamp. */
+  /**
+   * @return Returns the addTimestamp.
+   */
   public boolean isAddTimestamp() {
     return addTimestamp;
   }
 
-  /** @param pattern The datePattern to set. */
+  /**
+   * @param pattern The datePattern to set.
+   */
   public void setDatePattern(String pattern) {
     this.datePattern = pattern;
   }
 
-  /** @return Returns the datePattern. */
+  /**
+   * @return Returns the datePattern.
+   */
   public String getDatePattern() {
     return datePattern;
   }
 
-  /** @return Returns the port. */
+  /**
+   * @return Returns the port.
+   */
   public String getPort() {
     return port;
   }
 
-  /** @param port The port to set. */
+  /**
+   * @param port The port to set.
+   */
   public void setPort(String port) {
     this.port = port;
   }
@@ -257,7 +280,8 @@ public class ActionSyslog extends ActionBase implements Cloneable, IAction {
     return result;
   }
 
-  @Override public boolean isEvaluation() {
+  @Override
+  public boolean isEvaluation() {
     return true;
   }
 

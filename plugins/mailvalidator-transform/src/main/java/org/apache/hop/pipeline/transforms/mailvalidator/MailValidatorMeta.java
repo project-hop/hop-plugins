@@ -31,11 +31,8 @@ import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransform;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.w3c.dom.Node;
 
@@ -49,8 +46,7 @@ import java.util.List;
     categoryDescription =
         "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Validation",
     documentationUrl = "/pipeline/transforms/mailvalidator.html")
-public class MailValidatorMeta extends BaseTransformMeta
-    implements ITransformMeta<MailValidator, MailValidatorData> {
+public class MailValidatorMeta extends BaseTransformMeta<MailValidator, MailValidatorData> {
   private static final Class<?> PKG = MailValidatorMeta.class; // For Translator
 
   /** dynamic email address */
@@ -82,7 +78,9 @@ public class MailValidatorMeta extends BaseTransformMeta
     super(); // allocate BaseTransformMeta
   }
 
-  /** @return Returns the emailfield. */
+  /**
+   * @return Returns the emailfield.
+   */
   public String getEmailField() {
     return emailfield;
   }
@@ -91,17 +89,23 @@ public class MailValidatorMeta extends BaseTransformMeta
     this.emailfield = emailfield;
   }
 
-  /** @return Returns the resultName. */
+  /**
+   * @return Returns the resultName.
+   */
   public String getResultFieldName() {
     return resultfieldname;
   }
 
-  /** @param resultfieldname The resultfieldname to set. */
+  /**
+   * @param resultfieldname The resultfieldname to set.
+   */
   public void setResultFieldName(String resultfieldname) {
     this.resultfieldname = resultfieldname;
   }
 
-  /** @param emailValideMsg The emailValideMsg to set. */
+  /**
+   * @param emailValideMsg The emailValideMsg to set.
+   */
   public void setEmailValideMsg(String emailValideMsg) {
     this.emailValideMsg = emailValideMsg;
   }
@@ -114,32 +118,44 @@ public class MailValidatorMeta extends BaseTransformMeta
     return emailNotValideMsg;
   }
 
-  /** @return Returns the errorsFieldName. */
+  /**
+   * @return Returns the errorsFieldName.
+   */
   public String getErrorsField() {
     return errorsFieldName;
   }
 
-  /** @param errorsFieldName The errorsFieldName to set. */
+  /**
+   * @param errorsFieldName The errorsFieldName to set.
+   */
   public void setErrorsField(String errorsFieldName) {
     this.errorsFieldName = errorsFieldName;
   }
 
-  /** @return Returns the timeout. */
+  /**
+   * @return Returns the timeout.
+   */
   public String getTimeOut() {
     return timeout;
   }
 
-  /** @param timeout The timeout to set. */
+  /**
+   * @param timeout The timeout to set.
+   */
   public void setTimeOut(String timeout) {
     this.timeout = timeout;
   }
 
-  /** @return Returns the defaultSMTP. */
+  /**
+   * @return Returns the defaultSMTP.
+   */
   public String getDefaultSMTP() {
     return defaultSMTP;
   }
 
-  /** @param defaultSMTP The defaultSMTP to set. */
+  /**
+   * @param defaultSMTP The defaultSMTP to set.
+   */
   public void setDefaultSMTP(String defaultSMTP) {
     this.defaultSMTP = defaultSMTP;
   }
@@ -152,12 +168,16 @@ public class MailValidatorMeta extends BaseTransformMeta
     this.emailSender = emailSender;
   }
 
-  /** @return Returns the defaultSMTPField. */
+  /**
+   * @return Returns the defaultSMTPField.
+   */
   public String getDefaultSMTPField() {
     return defaultSMTPField;
   }
 
-  /** @param defaultSMTPField The defaultSMTPField to set. */
+  /**
+   * @param defaultSMTPField The defaultSMTPField to set.
+   */
   public void setDefaultSMTPField(String defaultSMTPField) {
     this.defaultSMTPField = defaultSMTPField;
   }
@@ -170,7 +190,9 @@ public class MailValidatorMeta extends BaseTransformMeta
     this.isdynamicDefaultSMTP = isdynamicDefaultSMTP;
   }
 
-  /** @param emailNotValideMsg The emailNotValideMsg to set. */
+  /**
+   * @param emailNotValideMsg The emailNotValideMsg to set.
+   */
   public void setEmailNotValideMsg(String emailNotValideMsg) {
     this.emailNotValideMsg = emailNotValideMsg;
   }
@@ -195,23 +217,6 @@ public class MailValidatorMeta extends BaseTransformMeta
   public void loadXml(Node transformNode, IHopMetadataProvider metadataProvider)
       throws HopXmlException {
     readData(transformNode);
-  }
-
-  @Override
-  public Object clone() {
-    MailValidatorMeta retval = (MailValidatorMeta) super.clone();
-
-    return retval;
-  }
-
-  @Override
-  public ITransform createTransform(
-      TransformMeta transformMeta,
-      MailValidatorData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
-    return new MailValidator(transformMeta, this, data, copyNr, pipelineMeta, pipeline);
   }
 
   @Override
@@ -470,11 +475,6 @@ public class MailValidatorMeta extends BaseTransformMeta
         remarks.add(cr);
       }
     }
-  }
-
-  @Override
-  public MailValidatorData getTransformData() {
-    return new MailValidatorData();
   }
 
   @Override

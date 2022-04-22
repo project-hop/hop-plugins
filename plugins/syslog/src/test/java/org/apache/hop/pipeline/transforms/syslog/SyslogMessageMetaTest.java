@@ -31,10 +31,18 @@ public class SyslogMessageMetaTest {
 
   @Test
   public void testLoadSave() throws HopException {
-    List<String> attributes = Arrays.asList( "MessageFieldName", "Port", "ServerName", "Facility",
-      "Priority", "AddTimestamp", "DatePattern", "AddHostName" );
+    List<String> attributes =
+        Arrays.asList(
+            "MessageFieldName",
+            "Port",
+            "ServerName",
+            "Facility",
+            "Priority",
+            "AddTimestamp",
+            "DatePattern",
+            "AddHostName");
 
-    LoadSaveTester loadSaveTester = new LoadSaveTester( SyslogMessageMeta.class, attributes );
+    LoadSaveTester loadSaveTester = new LoadSaveTester(SyslogMessageMeta.class, attributes);
 
     loadSaveTester.testSerialization();
   }

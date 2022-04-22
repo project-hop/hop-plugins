@@ -27,11 +27,8 @@ import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransform;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.workflow.actions.syslog.SyslogDefs;
 import org.w3c.dom.Node;
@@ -45,8 +42,7 @@ import java.util.List;
     description = "i18n::BaseTransform.TypeTooltipDesc.SyslogMessage",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Utility",
     documentationUrl = "https://hop.apache.org/manual/latest/plugins/transforms/syslog.html")
-public class SyslogMessageMeta extends BaseTransformMeta
-    implements ITransformMeta<SyslogMessage, SyslogMessageData> {
+public class SyslogMessageMeta extends BaseTransformMeta<SyslogMessage, SyslogMessageData> {
   private static final Class<?> PKG = SyslogMessageMeta.class; // For Translator
 
   /** dynamic message fieldname */
@@ -75,16 +71,6 @@ public class SyslogMessageMeta extends BaseTransformMeta
     return retval;
   }
 
-  @Override
-  public ITransform createTransform(
-      TransformMeta transformMeta,
-      SyslogMessageData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
-    return new SyslogMessage(transformMeta, this, data, copyNr, pipelineMeta, pipeline);
-  }
-
   public void setDefault() {
     messagefieldname = null;
     port = String.valueOf(SyslogDefs.DEFAULT_PORT);
@@ -96,52 +82,72 @@ public class SyslogMessageMeta extends BaseTransformMeta
     addHostName = true;
   }
 
-  /** @return Returns the serverName. */
+  /**
+   * @return Returns the serverName.
+   */
   public String getServerName() {
     return serverName;
   }
 
-  /** @param serverName The serverName to set. */
+  /**
+   * @param serverName The serverName to set.
+   */
   public void setServerName(String serverName) {
     this.serverName = serverName;
   }
 
-  /** @return Returns the Facility. */
+  /**
+   * @return Returns the Facility.
+   */
   public String getFacility() {
     return facility;
   }
 
-  /** @param facility The facility to set. */
+  /**
+   * @param facility The facility to set.
+   */
   public void setFacility(String facility) {
     this.facility = facility;
   }
 
-  /** @param priority The priority to set. */
+  /**
+   * @param priority The priority to set.
+   */
   public void setPriority(String priority) {
     this.priority = priority;
   }
 
-  /** @return Returns the priority. */
+  /**
+   * @return Returns the priority.
+   */
   public String getPriority() {
     return priority;
   }
 
-  /** @param messagefieldname The messagefieldname to set. */
+  /**
+   * @param messagefieldname The messagefieldname to set.
+   */
   public void setMessageFieldName(String messagefieldname) {
     this.messagefieldname = messagefieldname;
   }
 
-  /** @return Returns the messagefieldname. */
+  /**
+   * @return Returns the messagefieldname.
+   */
   public String getMessageFieldName() {
     return messagefieldname;
   }
 
-  /** @return Returns the port. */
+  /**
+   * @return Returns the port.
+   */
   public String getPort() {
     return port;
   }
 
-  /** @param port The port to set. */
+  /**
+   * @param port The port to set.
+   */
   public void setPort(String port) {
     this.port = port;
   }
@@ -159,17 +165,23 @@ public class SyslogMessageMeta extends BaseTransformMeta
     this.addTimestamp = value;
   }
 
-  /** @return Returns the addTimestamp. */
+  /**
+   * @return Returns the addTimestamp.
+   */
   public boolean isAddTimestamp() {
     return addTimestamp;
   }
 
-  /** @param pattern The datePattern to set. */
+  /**
+   * @param pattern The datePattern to set.
+   */
   public void setDatePattern(String pattern) {
     this.datePattern = pattern;
   }
 
-  /** @return Returns the datePattern. */
+  /**
+   * @return Returns the datePattern.
+   */
   public String getDatePattern() {
     return datePattern;
   }
@@ -187,7 +199,9 @@ public class SyslogMessageMeta extends BaseTransformMeta
     this.addHostName = value;
   }
 
-  /** @return Returns the addHostName. */
+  /**
+   * @return Returns the addHostName.
+   */
   public boolean isAddHostName() {
     return addHostName;
   }

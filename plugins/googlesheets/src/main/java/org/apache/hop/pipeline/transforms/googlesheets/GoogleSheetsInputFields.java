@@ -32,13 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Describes a single field in a text file
- *
- * @author Matt
- * @since 19-04-2004
- * @cloned for the google sheet plugin by @author JFMONTEIL
- */
+/** Describes a single field in a text file */
 public class GoogleSheetsInputFields implements Cloneable, ITextFileInputField {
 
   @Injection(name = "INPUT_NAME", group = "INPUT_FIELDS")
@@ -102,7 +96,7 @@ public class GoogleSheetsInputFields implements Cloneable, ITextFileInputField {
         "#####.###############%",
       };
 
-  public GoogleSheetsInputFields( String fieldname, int position, int length) {
+  public GoogleSheetsInputFields(String fieldname, int position, int length) {
     this.name = fieldname;
     this.position = position;
     this.length = length;
@@ -504,7 +498,7 @@ public class GoogleSheetsInputFields implements Cloneable, ITextFileInputField {
 
                 if (!islong) { // Try the double
 
-                  df.setDecimalFormatSymbols( dfs );
+                  df.setDecimalFormatSymbols(dfs);
                   df.applyPattern(number_formats[x]);
 
                   double d = df.parse(field).doubleValue();

@@ -30,37 +30,36 @@ import java.io.PipedInputStream;
 import java.util.List;
 
 public class VerticaBulkLoaderData extends BaseTransformData implements ITransformData {
-    protected Database db;
-    protected DatabaseMeta databaseMeta;
+  protected Database db;
+  protected DatabaseMeta databaseMeta;
 
-    protected StreamEncoder encoder;
+  protected StreamEncoder encoder;
 
-    protected int[] selectedRowFieldIndices;
+  protected int[] selectedRowFieldIndices;
 
-    protected IRowMeta outputRowMeta;
-    protected IRowMeta insertRowMeta;
+  protected IRowMeta outputRowMeta;
+  protected IRowMeta insertRowMeta;
 
-    protected PipedInputStream pipedInputStream;
+  protected PipedInputStream pipedInputStream;
 
-    protected volatile Thread workerThread;
+  protected volatile Thread workerThread;
 
-    protected List<ColumnSpec> colSpecs;
+  protected List<ColumnSpec> colSpecs;
 
-    public VerticaBulkLoaderData() {
-        super();
+  public VerticaBulkLoaderData() {
+    super();
 
-        db = null;
+    db = null;
+  }
+
+  public IRowMeta getInsertRowMeta() {
+    return insertRowMeta;
+  }
+
+  public void close() throws IOException {
+
+    if (encoder != null) {
+      encoder.close();
     }
-
-    public IRowMeta getInsertRowMeta() {
-        return insertRowMeta;
-    }
-
-    public void close() throws IOException {
-
-        if ( encoder != null ) {
-            encoder.close();
-        }
-
-    }
+  }
 }

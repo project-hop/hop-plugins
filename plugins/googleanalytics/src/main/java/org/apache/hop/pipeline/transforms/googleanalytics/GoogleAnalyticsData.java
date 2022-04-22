@@ -26,17 +26,17 @@ import org.apache.hop.pipeline.transform.ITransformData;
 
 public class GoogleAnalyticsData extends BaseTransformData implements ITransformData {
 
-    public IRowMeta outputRowMeta;
+  public IRowMeta outputRowMeta;
 
-    // meta info for a string conversion
-    public IValueMeta[] conversionMeta;
+  // meta info for a string conversion
+  public IValueMeta[] conversionMeta;
 
-    // holds currently processed feed
-    public Analytics.Data.Ga.Get query;
-    public GaData feed;
-    public int entryIndex;
+  // holds currently processed feed
+  public Analytics.Data.Ga.Get query;
+  public GaData feed;
+  public int entryIndex;
 
-    public GoogleAnalyticsData() {
-        super();
-    }
+  public GoogleAnalyticsData() {
+    super();
+  }
 }

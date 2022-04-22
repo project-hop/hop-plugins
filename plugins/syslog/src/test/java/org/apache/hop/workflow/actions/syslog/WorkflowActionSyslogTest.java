@@ -16,12 +16,10 @@
  */
 package org.apache.hop.workflow.actions.syslog;
 
-import org.apache.hop.workflow.action.loadsave.WorkflowActionLoadSaveTestSupport;
 import org.apache.hop.junit.rules.RestoreHopEngineEnvironment;
+import org.apache.hop.workflow.action.loadsave.WorkflowActionLoadSaveTestSupport;
 import org.junit.ClassRule;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class WorkflowActionSyslogTest extends WorkflowActionLoadSaveTestSupport<ActionSyslog> {
@@ -35,27 +33,26 @@ public class WorkflowActionSyslogTest extends WorkflowActionLoadSaveTestSupport<
   @Override
   protected Map<String, String> createGettersMap() {
     return toMap(
-      "serverName", "getServerName",
-      "port", "getPort",
-      "message", "getMessage",
-      "facility", "getFacility",
-      "priority", "getPriority",
-      "datePattern", "getDatePattern",
-      "addTimestamp", "isAddTimestamp",
-      "addHostname", "isAddHostName" );
+        "serverName", "getServerName",
+        "port", "getPort",
+        "message", "getMessage",
+        "facility", "getFacility",
+        "priority", "getPriority",
+        "datePattern", "getDatePattern",
+        "addTimestamp", "isAddTimestamp",
+        "addHostname", "isAddHostName");
   }
 
   @Override
   protected Map<String, String> createSettersMap() {
     return toMap(
-      "serverName", "setServerName",
-      "port", "setPort",
-      "message", "setMessage",
-      "facility", "setFacility",
-      "priority", "setPriority",
-      "datePattern", "setDatePattern",
-      "addTimestamp", "addTimestamp",
-      "addHostname", "addHostName" );
+        "serverName", "setServerName",
+        "port", "setPort",
+        "message", "setMessage",
+        "facility", "setFacility",
+        "priority", "setPriority",
+        "datePattern", "setDatePattern",
+        "addTimestamp", "addTimestamp",
+        "addHostname", "addHostName");
   }
-
 }

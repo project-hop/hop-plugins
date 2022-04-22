@@ -35,53 +35,57 @@ import java.security.GeneralSecurityException;
 
 public class GoogleAnalyticsApiFacade {
 
-    private Analytics analytics;
-    private final HttpTransport httpTransport;
+  private Analytics analytics;
+  private final HttpTransport httpTransport;
 
-    public static GoogleAnalyticsApiFacade createFor(
-            String application, String oauthServiceAccount, String oauthKeyFile )
-            throws GeneralSecurityException, IOException, HopFileException {
+  public static GoogleAnalyticsApiFacade createFor(
+      String application, String oauthServiceAccount, String oauthKeyFile)
+      throws GeneralSecurityException, IOException, HopFileException {
 
-        return new GoogleAnalyticsApiFacade(
-                GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                application,
-                oauthServiceAccount,
-                new File( HopVfs.getFileObject( oauthKeyFile ).getURL().getPath() )
-        );
-    }
+    return new GoogleAnalyticsApiFacade(
+        GoogleNetHttpTransport.newTrustedTransport(),
+        JacksonFactory.getDefaultInstance(),
+        application,
+        oauthServiceAccount,
+        new File(HopVfs.getFileObject(oauthKeyFile).getURL().getPath()));
+  }
 
-    public GoogleAnalyticsApiFacade(HttpTransport httpTransport, JsonFactory jsonFactory, String application,
-                                    String oathServiceEmail, File keyFile )
-            throws IOException, GeneralSecurityException {
+  public GoogleAnalyticsApiFacade(
+      HttpTransport httpTransport,
+      JsonFactory jsonFactory,
+      String application,
+      String oathServiceEmail,
+      File keyFile)
+      throws IOException, GeneralSecurityException {
 
-        Assert.assertNotNull( httpTransport, "HttpTransport cannot be null" );
-        Assert.assertNotNull( jsonFactory, "JsonFactory cannot be null" );
-        Assert.assertNotBlank( application, "Application name cannot be empty" );
-        Assert.assertNotBlank( oathServiceEmail, "OAuth Service Email name cannot be empty" );
-        Assert.assertNotNull( keyFile, "OAuth secret key file cannot be null" );
+    Assert.assertNotNull(httpTransport, "HttpTransport cannot be null");
+    Assert.assertNotNull(jsonFactory, "JsonFactory cannot be null");
+    Assert.assertNotBlank(application, "Application name cannot be empty");
+    Assert.assertNotBlank(oathServiceEmail, "OAuth Service Email name cannot be empty");
+    Assert.assertNotNull(keyFile, "OAuth secret key file cannot be null");
 
-        this.httpTransport = httpTransport;
+    this.httpTransport = httpTransport;
 
-        Credential credential = new GoogleCredential.Builder()
-                .setTransport( httpTransport )
-                .setJsonFactory( jsonFactory )
-                .setServiceAccountScopes( AnalyticsScopes.all() )
-                .setServiceAccountId( oathServiceEmail )
-                .setServiceAccountPrivateKeyFromP12File( keyFile )
-                .build();
+    Credential credential =
+        new GoogleCredential.Builder()
+            .setTransport(httpTransport)
+            .setJsonFactory(jsonFactory)
+            .setServiceAccountScopes(AnalyticsScopes.all())
+            .setServiceAccountId(oathServiceEmail)
+            .setServiceAccountPrivateKeyFromP12File(keyFile)
+            .build();
 
-        analytics = new Analytics.Builder( httpTransport, jsonFactory, credential )
-                .setApplicationName( application )
-                .build();
-    }
+    analytics =
+        new Analytics.Builder(httpTransport, jsonFactory, credential)
+            .setApplicationName(application)
+            .build();
+  }
 
-    public void close() throws IOException {
-        httpTransport.shutdown();
-    }
+  public void close() throws IOException {
+    httpTransport.shutdown();
+  }
 
-    public Analytics getAnalytics() {
-        return analytics;
-    }
-
+  public Analytics getAnalytics() {
+    return analytics;
+  }
 }

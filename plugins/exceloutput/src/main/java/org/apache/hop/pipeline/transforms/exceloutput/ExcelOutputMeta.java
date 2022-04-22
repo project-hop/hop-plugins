@@ -36,10 +36,8 @@ import org.apache.hop.core.vfs.HopVfs;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.resource.IResourceNaming;
 import org.apache.hop.resource.ResourceDefinition;
@@ -60,8 +58,7 @@ import java.util.Map;
 @InjectionSupported(
     localizationPrefix = "ExcelOutput.Injection.",
     groups = {"FIELDS", "CUSTOM", "CONTENT"})
-public class ExcelOutputMeta extends BaseTransformMeta
-    implements ITransformMeta<ExcelOutput, ExcelOutputData> {
+public class ExcelOutputMeta extends BaseTransformMeta<ExcelOutput, ExcelOutputData> {
   private static final Class<?> PKG = ExcelOutputMeta.class; // For Translator
 
   public static final int FONT_NAME_ARIAL = 0;
@@ -442,82 +439,114 @@ public class ExcelOutputMeta extends BaseTransformMeta
     super(); // allocate BaseTransformMeta
   }
 
-  /** @return Returns the createparentfolder. */
+  /**
+   * @return Returns the createparentfolder.
+   */
   public boolean isCreateParentFolder() {
     return createparentfolder;
   }
 
-  /** @param createparentfolder The createparentfolder to set. */
+  /**
+   * @param createparentfolder The createparentfolder to set.
+   */
   public void setCreateParentFolder(boolean createparentfolder) {
     this.createparentfolder = createparentfolder;
   }
 
-  /** @return Returns the dateInFilename. */
+  /**
+   * @return Returns the dateInFilename.
+   */
   public boolean isDateInFilename() {
     return dateInFilename;
   }
 
-  /** @param dateInFilename The dateInFilename to set. */
+  /**
+   * @param dateInFilename The dateInFilename to set.
+   */
   public void setDateInFilename(boolean dateInFilename) {
     this.dateInFilename = dateInFilename;
   }
 
-  /** @return Returns the extension. */
+  /**
+   * @return Returns the extension.
+   */
   public String getExtension() {
     return extension;
   }
 
-  /** @param extension The extension to set. */
+  /**
+   * @param extension The extension to set.
+   */
   public void setExtension(String extension) {
     this.extension = extension;
   }
 
-  /** @return Returns the fileName. */
+  /**
+   * @return Returns the fileName.
+   */
   public String getFileName() {
     return fileName;
   }
 
-  /** @return Returns the password. */
+  /**
+   * @return Returns the password.
+   */
   public String getPassword() {
     return password;
   }
 
-  /** @return Returns the sheet name. */
+  /**
+   * @return Returns the sheet name.
+   */
   public String getSheetname() {
     return sheetname;
   }
 
-  /** @param sheetname The sheet name. */
+  /**
+   * @param sheetname The sheet name.
+   */
   public void setSheetname(String sheetname) {
     this.sheetname = sheetname;
   }
 
-  /** @param fileName The fileName to set. */
+  /**
+   * @param fileName The fileName to set.
+   */
   public void setFileName(String fileName) {
     this.fileName = fileName;
   }
 
-  /** @param password teh passwoed to set. */
+  /**
+   * @param password teh passwoed to set.
+   */
   public void setPassword(String password) {
     this.password = password;
   }
 
-  /** @return Returns the footer. */
+  /**
+   * @return Returns the footer.
+   */
   public boolean isFooterEnabled() {
     return footerEnabled;
   }
 
-  /** @param footer The footer to set. */
+  /**
+   * @param footer The footer to set.
+   */
   public void setFooterEnabled(boolean footer) {
     this.footerEnabled = footer;
   }
 
-  /** @return Returns the autosizecolumns. */
+  /**
+   * @return Returns the autosizecolumns.
+   */
   public boolean isAutoSizeColumns() {
     return autoSizeColumns;
   }
 
-  /** @param autosizecolumns The autosizecolumns to set. */
+  /**
+   * @param autosizecolumns The autosizecolumns to set.
+   */
   public void setAutoSizeColumns(boolean autosizecolumns) {
     this.autoSizeColumns = autosizecolumns;
   }
@@ -548,7 +577,9 @@ public class ExcelOutputMeta extends BaseTransformMeta
     return tempdirectory;
   }
 
-  /** @return Returns whether or not null values are written as blank cells. */
+  /**
+   * @return Returns whether or not null values are written as blank cells.
+   */
   public boolean isNullBlank() {
     return nullIsBlank;
   }
@@ -560,12 +591,16 @@ public class ExcelOutputMeta extends BaseTransformMeta
     this.nullIsBlank = nullIsBlank;
   }
 
-  /** @return Returns the header. */
+  /**
+   * @return Returns the header.
+   */
   public boolean isHeaderEnabled() {
     return headerEnabled;
   }
 
-  /** @param header The header to set. */
+  /**
+   * @param header The header to set.
+   */
   public void setHeaderEnabled(boolean header) {
     this.headerEnabled = header;
   }
@@ -586,82 +621,114 @@ public class ExcelOutputMeta extends BaseTransformMeta
     this.dateTimeFormat = dateTimeFormat;
   }
 
-  /** @return Returns the newline. */
+  /**
+   * @return Returns the newline.
+   */
   public String getNewline() {
     return newline;
   }
 
-  /** @param newline The newline to set. */
+  /**
+   * @param newline The newline to set.
+   */
   public void setNewline(String newline) {
     this.newline = newline;
   }
 
-  /** @return Returns the splitEvery. */
+  /**
+   * @return Returns the splitEvery.
+   */
   public int getSplitEvery() {
     return splitEvery;
   }
 
-  /** @return Returns the add to result filesname. */
+  /**
+   * @return Returns the add to result filesname.
+   */
   public boolean isAddToResultFiles() {
     return addToResultFilenames;
   }
 
-  /** @param addtoresultfilenamesin The addtoresultfilenames to set. */
+  /**
+   * @param addtoresultfilenamesin The addtoresultfilenames to set.
+   */
   public void setAddToResultFiles(boolean addtoresultfilenamesin) {
     this.addToResultFilenames = addtoresultfilenamesin;
   }
 
-  /** @param splitEvery The splitEvery to set. */
+  /**
+   * @param splitEvery The splitEvery to set.
+   */
   public void setSplitEvery(int splitEvery) {
     this.splitEvery = splitEvery;
   }
 
-  /** @return Returns the transformNrInFilename. */
+  /**
+   * @return Returns the transformNrInFilename.
+   */
   public boolean isTransformNrInFilename() {
     return transformNrInFilename;
   }
 
-  /** @param transformNrInFilename The transformNrInFilename to set. */
+  /**
+   * @param transformNrInFilename The transformNrInFilename to set.
+   */
   public void setTransformNrInFilename(boolean transformNrInFilename) {
     this.transformNrInFilename = transformNrInFilename;
   }
 
-  /** @return Returns the timeInFilename. */
+  /**
+   * @return Returns the timeInFilename.
+   */
   public boolean isTimeInFilename() {
     return timeInFilename;
   }
 
-  /** @return Returns the protectsheet. */
+  /**
+   * @return Returns the protectsheet.
+   */
   public boolean isSheetProtected() {
     return protectsheet;
   }
 
-  /** @param timeInFilename The timeInFilename to set. */
+  /**
+   * @param timeInFilename The timeInFilename to set.
+   */
   public void setTimeInFilename(boolean timeInFilename) {
     this.timeInFilename = timeInFilename;
   }
 
-  /** @param protectsheet the value to set. */
+  /**
+   * @param protectsheet the value to set.
+   */
   public void setProtectSheet(boolean protectsheet) {
     this.protectsheet = protectsheet;
   }
 
-  /** @return Returns the usetempfile. */
+  /**
+   * @return Returns the usetempfile.
+   */
   public boolean isUseTempFiles() {
     return usetempfiles;
   }
 
-  /** @param usetempfiles The usetempfiles to set. */
+  /**
+   * @param usetempfiles The usetempfiles to set.
+   */
   public void setUseTempFiles(boolean usetempfiles) {
     this.usetempfiles = usetempfiles;
   }
 
-  /** @return Returns the outputFields. */
+  /**
+   * @return Returns the outputFields.
+   */
   public ExcelField[] getOutputFields() {
     return outputFields;
   }
 
-  /** @param outputFields The outputFields to set. */
+  /**
+   * @param outputFields The outputFields to set.
+   */
   public void setOutputFields(ExcelField[] outputFields) {
     this.outputFields = outputFields;
   }
@@ -682,52 +749,72 @@ public class ExcelOutputMeta extends BaseTransformMeta
     this.encoding = encoding;
   }
 
-  /** @return Returns the template. */
+  /**
+   * @return Returns the template.
+   */
   public boolean isTemplateEnabled() {
     return templateEnabled;
   }
 
-  /** @param template The template to set. */
+  /**
+   * @param template The template to set.
+   */
   public void setTemplateEnabled(boolean template) {
     this.templateEnabled = template;
   }
 
-  /** @return Returns the templateAppend. */
+  /**
+   * @return Returns the templateAppend.
+   */
   public boolean isTemplateAppend() {
     return templateAppend;
   }
 
-  /** @param templateAppend The templateAppend to set. */
+  /**
+   * @param templateAppend The templateAppend to set.
+   */
   public void setTemplateAppend(boolean templateAppend) {
     this.templateAppend = templateAppend;
   }
 
-  /** @return Returns the templateFileName. */
+  /**
+   * @return Returns the templateFileName.
+   */
   public String getTemplateFileName() {
     return templateFileName;
   }
 
-  /** @param templateFileName The templateFileName to set. */
+  /**
+   * @param templateFileName The templateFileName to set.
+   */
   public void setTemplateFileName(String templateFileName) {
     this.templateFileName = templateFileName;
   }
 
-  /** @return Returns the "do not open new file at init" flag. */
+  /**
+   * @return Returns the "do not open new file at init" flag.
+   */
   public boolean isDoNotOpenNewFileInit() {
     return doNotOpenNewFileInit;
   }
 
-  /** @param doNotOpenNewFileInit The "do not open new file at init" flag to set. */
+  /**
+   * @param doNotOpenNewFileInit The "do not open new file at init" flag to set.
+   */
   public void setDoNotOpenNewFileInit(boolean doNotOpenNewFileInit) {
     this.doNotOpenNewFileInit = doNotOpenNewFileInit;
   }
 
-  /** @return Returns the append. */
+  /**
+   * @return Returns the append.
+   */
   public boolean isAppend() {
     return append;
   }
 
-  /** @param append The append to set. */
+  /**
+   * @param append The append to set.
+   */
   public void setAppend(boolean append) {
     this.append = append;
   }
@@ -1260,21 +1347,6 @@ public class ExcelOutputMeta extends BaseTransformMeta
     } catch (Exception e) {
       throw new HopException(e);
     }
-  }
-
-  @Override
-  public ExcelOutput createTransform(
-      TransformMeta transformMeta,
-      ExcelOutputData data,
-      int cnr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
-    return new ExcelOutput(transformMeta, this, data, cnr, pipelineMeta, pipeline);
-  }
-
-  @Override
-  public ExcelOutputData getTransformData() {
-    return new ExcelOutputData();
   }
 
   public static String getFontNameDesc(int i) {

@@ -51,16 +51,17 @@ public class SyslogMessageConcurrentTest {
 
   @Before
   public void setUp() throws Exception {
-    numOfErrors = new AtomicInteger( 0 );
-    countDownLatch = new CountDownLatch( 1 );
-    transformMockHelper = new TransformMockHelper<>( "SYSLOG_MESSAGE TEST", SyslogMessageMeta.class,
-      SyslogMessageData.class );
-    when( transformMockHelper.logChannelFactory.create( any(), any( ILoggingObject.class ) ) ).thenReturn(
-      transformMockHelper.iLogChannel );
-    when( transformMockHelper.iTransformMeta.getServerName() ).thenReturn( "localhost" );
-    when( transformMockHelper.iTransformMeta.getMessageFieldName() ).thenReturn( "message field" );
-    when( transformMockHelper.iTransformMeta.getPort() ).thenReturn( "9988" );
-    when( transformMockHelper.iTransformMeta.getPriority() ).thenReturn( "ERROR" );
+    numOfErrors = new AtomicInteger(0);
+    countDownLatch = new CountDownLatch(1);
+    transformMockHelper =
+        new TransformMockHelper<>(
+            "SYSLOG_MESSAGE TEST", SyslogMessageMeta.class, SyslogMessageData.class);
+    when(transformMockHelper.logChannelFactory.create(any(), any(ILoggingObject.class)))
+        .thenReturn(transformMockHelper.iLogChannel);
+    when(transformMockHelper.iTransformMeta.getServerName()).thenReturn("localhost");
+    when(transformMockHelper.iTransformMeta.getMessageFieldName()).thenReturn("message field");
+    when(transformMockHelper.iTransformMeta.getPort()).thenReturn("9988");
+    when(transformMockHelper.iTransformMeta.getPriority()).thenReturn("ERROR");
   }
 
   @After
@@ -71,24 +72,30 @@ public class SyslogMessageConcurrentTest {
   @Test
   public void concurrentSyslogMessageTest() throws Exception {
     SyslogMessageTask syslogMessage = null;
-    ExecutorService service = Executors.newFixedThreadPool( numOfTasks );
-    for ( int i = 0; i < numOfTasks; i++ ) {
+    ExecutorService service = Executors.newFixedThreadPool(numOfTasks);
+    for (int i = 0; i < numOfTasks; i++) {
       syslogMessage = createSyslogMessageTask();
-      service.execute( syslogMessage );
+      service.execute(syslogMessage);
     }
     service.shutdown();
     countDownLatch.countDown();
-    service.awaitTermination( 10000, TimeUnit.NANOSECONDS );
-    Assert.assertTrue( numOfErrors.get() == 0 );
+    service.awaitTermination(10000, TimeUnit.NANOSECONDS);
+    Assert.assertTrue(numOfErrors.get() == 0);
   }
-
 
   private class SyslogMessageTask extends SyslogMessage implements Runnable {
 
     SyslogMessageMeta syslogMessageMeta = null;
 
-    public SyslogMessageTask( TransformMeta transformMeta, SyslogMessageMeta meta, SyslogMessageData data, int copyNr, PipelineMeta pipelineMeta, Pipeline pipeline, SyslogMessageMeta processRowsITransform ) {
-      super( transformMeta, meta, data, copyNr, pipelineMeta, pipeline );
+    public SyslogMessageTask(
+        TransformMeta transformMeta,
+        SyslogMessageMeta meta,
+        SyslogMessageData data,
+        int copyNr,
+        PipelineMeta pipelineMeta,
+        Pipeline pipeline,
+        SyslogMessageMeta processRowsITransform) {
+      super(transformMeta, meta, data, copyNr, pipelineMeta, pipeline);
       syslogMessageMeta = processRowsITransform;
     }
 
@@ -96,14 +103,14 @@ public class SyslogMessageConcurrentTest {
     public void run() {
       try {
         countDownLatch.await();
-       init();
-      } catch ( Exception e ) {
+        init();
+      } catch (Exception e) {
         e.printStackTrace();
         numOfErrors.getAndIncrement();
       } finally {
         try {
           dispose();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
           e.printStackTrace();
           numOfErrors.getAndIncrement();
         }
@@ -111,28 +118,35 @@ public class SyslogMessageConcurrentTest {
     }
 
     @Override
-    public void putRow( IRowMeta rowMeta, Object[] row ) throws HopTransformException {
-      Assert.assertNotNull( row );
-      Assert.assertTrue( row.length == 1 );
-      Assert.assertEquals( testMessage, row[ 0 ] );
+    public void putRow(IRowMeta rowMeta, Object[] row) throws HopTransformException {
+      Assert.assertNotNull(row);
+      Assert.assertTrue(row.length == 1);
+      Assert.assertEquals(testMessage, row[0]);
     }
 
     @Override
     public Object[] getRow() throws HopException {
-      return new Object[] { testMessage };
+      return new Object[] {testMessage};
     }
   }
 
   private SyslogMessageTask createSyslogMessageTask() throws Exception {
     SyslogMessageData data = new SyslogMessageData();
     SyslogMessageMeta meta = new SyslogMessageMeta();
-    IRowMeta inputRowMeta = mock( IRowMeta.class );
-    when( inputRowMeta.indexOfValue( any() ) ).thenReturn( 0 );
-    when( inputRowMeta.getString( any(), eq( 0 ) ) ).thenReturn( testMessage );
-    SyslogMessageTask syslogMessage = new SyslogMessageTask( transformMockHelper.transformMeta, meta, data, 0, transformMockHelper.pipelineMeta,
-      transformMockHelper.pipeline, transformMockHelper.iTransformMeta );
+    IRowMeta inputRowMeta = mock(IRowMeta.class);
+    when(inputRowMeta.indexOfValue(any())).thenReturn(0);
+    when(inputRowMeta.getString(any(), eq(0))).thenReturn(testMessage);
+    SyslogMessageTask syslogMessage =
+        new SyslogMessageTask(
+            transformMockHelper.transformMeta,
+            meta,
+            data,
+            0,
+            transformMockHelper.pipelineMeta,
+            transformMockHelper.pipeline,
+            transformMockHelper.iTransformMeta);
     syslogMessage.init();
-    syslogMessage.setInputRowMeta( inputRowMeta );
+    syslogMessage.setInputRowMeta(inputRowMeta);
     return syslogMessage;
   }
 }

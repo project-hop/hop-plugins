@@ -59,11 +59,8 @@ import java.util.Locale;
 
 /**
  * Converts input rows to excel cells and then writes this information to one or more files.
- *
- * @author Matt
- * @since 7-sep-2006
  */
-public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData> implements ITransform<ExcelOutputMeta, ExcelOutputData> {
+public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData> {
 
   private static final Class<?> PKG = ExcelOutputMeta.class; // For Translator
 

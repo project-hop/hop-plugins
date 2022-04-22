@@ -19,20 +19,12 @@ package org.apache.hop.workflow.actions.syslog;
 
 import org.apache.hop.core.exception.HopException;
 
-/**
- * This exception is throws when and error is found in a Syslog sending process.
- *
- * @author Samatar
- * @since 01-01-2010
- */
-
+/** This exception is throws when and error is found in a Syslog sending process. */
 public class SyslogException extends HopException {
 
   public static final long serialVersionUID = -1;
 
-  /**
-   * Constructs a new throwable with null as its detail message.
-   */
+  /** Constructs a new throwable with null as its detail message. */
   public SyslogException() {
     super();
   }
@@ -40,10 +32,10 @@ public class SyslogException extends HopException {
   /**
    * Constructs a new throwable with the specified detail message.
    *
-   * @param message - the detail message. The detail message is saved for later retrieval by the getMessage() method.
+   * @param message - the detail message. The detail message is saved for later retrieval by the
+   *     getMessage() method.
    */
-  public SyslogException( String message ) {
-    super( message );
+  public SyslogException(String message) {
+    super(message);
   }
-
 }

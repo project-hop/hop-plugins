@@ -29,10 +29,8 @@ import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.w3c.dom.Node;
 
@@ -44,18 +42,17 @@ import java.util.List;
     name = "i18n::GoogleSheetsOutput.transform.Name",
     description = "i18n::GoogleSheetsOutput.transform.Name",
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
-  documentationUrl =
-    "https://hop.apache.org/manual/latest/pipeline/transforms/googlesheetsoutput.html")
+    documentationUrl =
+        "https://hop.apache.org/manual/latest/pipeline/transforms/googlesheetsoutput.html")
 @InjectionSupported(
     localizationPrefix = "GoogleSheetsOutput.injection.",
     groups = {"SHEET", "INPUT_FIELDS"})
-public class GoogleSheetsOutputMeta extends BaseTransformMeta
-    implements ITransformMeta<
-  GoogleSheetsOutput, GoogleSheetsOutputData> {
+public class GoogleSheetsOutputMeta
+    extends BaseTransformMeta<GoogleSheetsOutput, GoogleSheetsOutputData> {
 
   public GoogleSheetsOutputMeta() {
     super();
-    create=true;
+    create = true;
   }
 
   @Injection(name = "jsonCrendentialPath", group = "SHEET")
@@ -235,30 +232,7 @@ public class GoogleSheetsOutputMeta extends BaseTransformMeta
   }
 
   @Override
-  public GoogleSheetsOutput createTransform(
-      TransformMeta transformMeta,
-      GoogleSheetsOutputData iTransformData,
-      int cnr,
-      PipelineMeta pm,
-      Pipeline pipeline) {
-    return new GoogleSheetsOutput(transformMeta, this, iTransformData, cnr, pm, pipeline);
-  }
-
-  @Override
-  public GoogleSheetsOutputData getTransformData() {
-    return new GoogleSheetsOutputData();
-  }
-
-  @Override
   public String getDialogClassName() {
     return GoogleSheetsOutputDialog.class.getName();
   }
-  /*public Neo4Jtput createTransform( TransformMeta transformMeta, Neo4JOutputData iTransformData, int cnr, PipelineMeta pipelineMeta, Pipeline disp ) {
-    return new Neo4JOutput( transformMeta, this, iTransformData, cnr, pipelineMeta, disp );
-  }
-
-  public Neo4JOutputData getTransformData() {
-    return new Neo4JOutputData();
-  }*/
-
 }

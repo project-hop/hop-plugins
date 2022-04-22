@@ -33,7 +33,6 @@ import org.apache.hop.core.row.RowMeta;
 import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransform;
-import org.apache.hop.pipeline.transform.ITransform;
 import org.apache.hop.pipeline.transform.TransformMeta;
 
 import java.math.BigDecimal;
@@ -43,9 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /** Describe your transform plugin. */
-public class GoogleSheetsInput
-    extends BaseTransform<GoogleSheetsInputMeta, GoogleSheetsInputData>
-    implements ITransform<GoogleSheetsInputMeta, GoogleSheetsInputData> {
+public class GoogleSheetsInput extends BaseTransform<GoogleSheetsInputMeta, GoogleSheetsInputData> {
 
   public GoogleSheetsInput(
       TransformMeta transformMeta,

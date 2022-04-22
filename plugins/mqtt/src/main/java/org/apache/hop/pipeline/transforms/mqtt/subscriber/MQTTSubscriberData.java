@@ -22,6 +22,7 @@ import org.apache.hop.core.row.IValueMeta;
 import org.apache.hop.pipeline.transform.BaseTransformData;
 import org.apache.hop.pipeline.transform.ITransformData;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+
 import java.util.Date;
 
 public class MQTTSubscriberData extends BaseTransformData implements ITransformData {

@@ -37,33 +37,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 import org.snmp4j.UserTarget;
 import org.snmp4j.smi.UdpAddress;
 
 import java.net.InetAddress;
 
-/**
- * This dialog allows you to edit the Syslog action settings.
- *
- * @author Samatar
- * @since 19-06-2003
- */
+/** This dialog allows you to edit the Syslog action settings. */
 public class ActionSyslogDialog extends ActionDialog implements IActionDialog {
   private static final Class<?> PKG = ActionSyslog.class; // For Translator
 

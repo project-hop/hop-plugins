@@ -18,5 +18,18 @@
 package org.apache.hop.pipeline.transforms.vertica.bulkloader.nativebinary;
 
 public enum ColumnType {
-    INTEGER, BOOLEAN, FLOAT, CHAR, VARCHAR, DATE, TIME, TIMETZ, TIMESTAMP, TIMESTAMPTZ, INTERVAL, BINARY, VARBINARY, NUMERIC
+  INTEGER,
+  BOOLEAN,
+  FLOAT,
+  CHAR,
+  VARCHAR,
+  DATE,
+  TIME,
+  TIMETZ,
+  TIMESTAMP,
+  TIMESTAMPTZ,
+  INTERVAL,
+  BINARY,
+  VARBINARY,
+  NUMERIC
 }

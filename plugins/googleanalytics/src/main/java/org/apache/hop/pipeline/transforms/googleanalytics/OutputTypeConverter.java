@@ -23,8 +23,8 @@ import org.apache.hop.core.row.value.ValueMetaFactory;
 
 public class OutputTypeConverter extends InjectionTypeConverter {
 
-    @Override
-    public int string2intPrimitive( String v ) throws HopValueException {
-        return ValueMetaFactory.getIdForValueMeta( v );
-    }
+  @Override
+  public int string2intPrimitive(String v) throws HopValueException {
+    return ValueMetaFactory.getIdForValueMeta(v);
+  }
 }

@@ -21,10 +21,6 @@ import org.apache.hop.pipeline.transform.BaseTransformData;
 import org.apache.hop.pipeline.transform.ITransformData;
 import org.productivity.java.syslog4j.SyslogIF;
 
-/**
- * @author Samatar
- * @since 03-Juin-2008
- */
 public class SyslogMessageData extends BaseTransformData implements ITransformData {
   public int indexOfMessageFieldName;
   public SyslogIF syslog;
@@ -36,5 +32,4 @@ public class SyslogMessageData extends BaseTransformData implements ITransformDa
     syslog = null;
     datePattern = null;
   }
-
 }

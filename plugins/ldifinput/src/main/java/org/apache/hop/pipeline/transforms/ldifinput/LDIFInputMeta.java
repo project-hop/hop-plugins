@@ -28,22 +28,15 @@ import org.apache.hop.core.exception.HopXmlException;
 import org.apache.hop.core.fileinput.FileInputList;
 import org.apache.hop.core.row.IRowMeta;
 import org.apache.hop.core.row.IValueMeta;
-import org.apache.hop.core.row.value.ValueMetaBoolean;
-import org.apache.hop.core.row.value.ValueMetaDate;
-import org.apache.hop.core.row.value.ValueMetaFactory;
-import org.apache.hop.core.row.value.ValueMetaInteger;
-import org.apache.hop.core.row.value.ValueMetaString;
+import org.apache.hop.core.row.value.*;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.core.variables.IVariables;
 import org.apache.hop.core.vfs.HopVfs;
 import org.apache.hop.core.xml.XmlHandler;
 import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.metadata.api.IHopMetadataProvider;
-import org.apache.hop.pipeline.Pipeline;
 import org.apache.hop.pipeline.PipelineMeta;
 import org.apache.hop.pipeline.transform.BaseTransformMeta;
-import org.apache.hop.pipeline.transform.ITransform;
-import org.apache.hop.pipeline.transform.ITransformMeta;
 import org.apache.hop.pipeline.transform.TransformMeta;
 import org.apache.hop.resource.IResourceNaming;
 import org.apache.hop.resource.ResourceDefinition;
@@ -60,8 +53,7 @@ import java.util.Map;
     categoryDescription = "i18n:org.apache.hop.pipeline.transform:BaseTransform.Category.Input",
     keywords = {"ldif", "input"},
     documentationUrl = "https://hop.apache.org/manual/latest/plugins/transforms/ldifinput.html")
-public class LDIFInputMeta extends BaseTransformMeta
-    implements ITransformMeta<LDIFInput, LDIFInputData> {
+public class LDIFInputMeta extends BaseTransformMeta<LDIFInput, LDIFInputData> {
   private static final Class<?> PKG = LDIFInputMeta.class; // For Translator
 
   public static final String[] RequiredFilesDesc =
@@ -137,42 +129,58 @@ public class LDIFInputMeta extends BaseTransformMeta
     super(); // allocate BaseTransformMeta
   }
 
-  /** @return Returns the extensionFieldName. */
+  /**
+   * @return Returns the extensionFieldName.
+   */
   public String getExtensionField() {
     return extensionFieldName;
   }
 
-  /** @param field The extensionFieldName to set. */
+  /**
+   * @param field The extensionFieldName to set.
+   */
   public void setExtensionField(String field) {
     extensionFieldName = field;
   }
 
-  /** @return Returns the sizeFieldName. */
+  /**
+   * @return Returns the sizeFieldName.
+   */
   public String getSizeField() {
     return sizeFieldName;
   }
 
-  /** @param field The sizeFieldName to set. */
+  /**
+   * @param field The sizeFieldName to set.
+   */
   public void setSizeField(String field) {
     sizeFieldName = field;
   }
 
-  /** @return Returns the shortFileFieldName. */
+  /**
+   * @return Returns the shortFileFieldName.
+   */
   public String getShortFileNameField() {
     return shortFileFieldName;
   }
 
-  /** @param field The shortFileFieldName to set. */
+  /**
+   * @param field The shortFileFieldName to set.
+   */
   public void setShortFileNameField(String field) {
     shortFileFieldName = field;
   }
 
-  /** @return Returns the pathFieldName. */
+  /**
+   * @return Returns the pathFieldName.
+   */
   public String getPathField() {
     return pathFieldName;
   }
 
-  /** @param field The pathFieldName to set. */
+  /**
+   * @param field The pathFieldName to set.
+   */
   public void setPathField(String field) {
     this.pathFieldName = field;
   }
@@ -186,7 +194,9 @@ public class LDIFInputMeta extends BaseTransformMeta
     return hiddenFieldName;
   }
 
-  /** @return Returns the hiddenFieldName. */
+  /**
+   * @return Returns the hiddenFieldName.
+   */
   public String getHiddenField() {
     return hiddenFieldName;
   }
@@ -200,37 +210,51 @@ public class LDIFInputMeta extends BaseTransformMeta
     hiddenFieldName = field;
   }
 
-  /** @param field The hiddenFieldName to set. */
+  /**
+   * @param field The hiddenFieldName to set.
+   */
   public void setHiddenField(String field) {
     hiddenFieldName = field;
   }
 
-  /** @return Returns the lastModificationTimeFieldName. */
+  /**
+   * @return Returns the lastModificationTimeFieldName.
+   */
   public String getLastModificationDateField() {
     return lastModificationTimeFieldName;
   }
 
-  /** @param field The lastModificationTimeFieldName to set. */
+  /**
+   * @param field The lastModificationTimeFieldName to set.
+   */
   public void setLastModificationDateField(String field) {
     lastModificationTimeFieldName = field;
   }
 
-  /** @return Returns the uriNameFieldName. */
+  /**
+   * @return Returns the uriNameFieldName.
+   */
   public String getUriField() {
     return uriNameFieldName;
   }
 
-  /** @param field The uriNameFieldName to set. */
+  /**
+   * @param field The uriNameFieldName to set.
+   */
   public void setUriField(String field) {
     uriNameFieldName = field;
   }
 
-  /** @return Returns the uriNameFieldName. */
+  /**
+   * @return Returns the uriNameFieldName.
+   */
   public String getRootUriField() {
     return rootUriNameFieldName;
   }
 
-  /** @param field The rootUriNameFieldName to set. */
+  /**
+   * @param field The rootUriNameFieldName to set.
+   */
   public void setRootUriField(String field) {
     rootUriNameFieldName = field;
   }
@@ -244,32 +268,44 @@ public class LDIFInputMeta extends BaseTransformMeta
     return excludeFileMask;
   }
 
-  /** @return Returns the excludeFileMask. */
+  /**
+   * @return Returns the excludeFileMask.
+   */
   public String[] getExcludeFileMask() {
     return excludeFileMask;
   }
 
-  /** @param excludeFileMask The excludeFileMask to set. */
+  /**
+   * @param excludeFileMask The excludeFileMask to set.
+   */
   public void setExcludeFileMask(String[] excludeFileMask) {
     this.excludeFileMask = excludeFileMask;
   }
 
-  /** @return Returns the input fields. */
+  /**
+   * @return Returns the input fields.
+   */
   public LDIFInputField[] getInputFields() {
     return inputFields;
   }
 
-  /** @param inputFields The input fields to set. */
+  /**
+   * @param inputFields The input fields to set.
+   */
   public void setInputFields(LDIFInputField[] inputFields) {
     this.inputFields = inputFields;
   }
 
-  /** @return Returns the fileMask. */
+  /**
+   * @return Returns the fileMask.
+   */
   public String[] getFileMask() {
     return fileMask;
   }
 
-  /** @param fileMask The fileMask to set. */
+  /**
+   * @param fileMask The fileMask to set.
+   */
   public void setFileMask(String[] fileMask) {
     this.fileMask = fileMask;
   }
@@ -316,22 +352,30 @@ public class LDIFInputMeta extends BaseTransformMeta
     }
   }
 
-  /** @return Returns the fileName. */
+  /**
+   * @return Returns the fileName.
+   */
   public String[] getFileName() {
     return fileName;
   }
 
-  /** @param fileName The fileName to set. */
+  /**
+   * @param fileName The fileName to set.
+   */
   public void setFileName(String[] fileName) {
     this.fileName = fileName;
   }
 
-  /** @param filefield The filefield to set. */
+  /**
+   * @param filefield The filefield to set.
+   */
   public void setFileField(boolean filefield) {
     this.filefield = filefield;
   }
 
-  /** @return Returns the File field. */
+  /**
+   * @return Returns the File field.
+   */
   public boolean isFileField() {
     return filefield;
   }
@@ -345,12 +389,16 @@ public class LDIFInputMeta extends BaseTransformMeta
     return includeFilename;
   }
 
-  /** @return Returns the includeFilename. */
+  /**
+   * @return Returns the includeFilename.
+   */
   public boolean getIncludeFilename() {
     return includeFilename;
   }
 
-  /** @param includeFilename The includeFilename to set. */
+  /**
+   * @param includeFilename The includeFilename to set.
+   */
   public void setIncludeFilename(boolean includeFilename) {
     this.includeFilename = includeFilename;
   }
@@ -364,12 +412,16 @@ public class LDIFInputMeta extends BaseTransformMeta
     return includeRowNumber;
   }
 
-  /** @return Returns the includeRowNumber. */
+  /**
+   * @return Returns the includeRowNumber.
+   */
   public boolean getIncludeRowNumber() {
     return includeRowNumber;
   }
 
-  /** @param includeRowNumber The includeRowNumber to set. */
+  /**
+   * @param includeRowNumber The includeRowNumber to set.
+   */
   public void setIncludeRowNumber(boolean includeRowNumber) {
     this.includeRowNumber = includeRowNumber;
   }
@@ -383,17 +435,23 @@ public class LDIFInputMeta extends BaseTransformMeta
     return includeContentType;
   }
 
-  /** @return Returns the includeContentType. */
+  /**
+   * @return Returns the includeContentType.
+   */
   public boolean getIncludeContentType() {
     return includeContentType;
   }
 
-  /** @param includeContentType The includeRowNumber to set. */
+  /**
+   * @param includeContentType The includeRowNumber to set.
+   */
   public void setIncludeContentType(boolean includeContentType) {
     this.includeContentType = includeContentType;
   }
 
-  /** @param includeDN The includeDN to set. */
+  /**
+   * @param includeDN The includeDN to set.
+   */
   public void setIncludeDN(boolean includeDN) {
     this.includeDN = includeDN;
   }
@@ -407,22 +465,30 @@ public class LDIFInputMeta extends BaseTransformMeta
     return includeDN;
   }
 
-  /** @return Returns the includeDN. */
+  /**
+   * @return Returns the includeDN.
+   */
   public boolean getIncludeDN() {
     return includeDN;
   }
 
-  /** @param multiValuedSeparator The multi-valued separator filed. */
+  /**
+   * @param multiValuedSeparator The multi-valued separator filed.
+   */
   public void setMultiValuedSeparator(String multiValuedSeparator) {
     this.multiValuedSeparator = multiValuedSeparator;
   }
 
-  /** @return Returns the multi valued separator. */
+  /**
+   * @return Returns the multi valued separator.
+   */
   public String getMultiValuedSeparator() {
     return multiValuedSeparator;
   }
 
-  /** @param addtoresultfilename The addtoresultfilename to set. */
+  /**
+   * @param addtoresultfilename The addtoresultfilename to set.
+   */
   public void setAddToResultFilename(boolean addtoresultfilename) {
     this.addtoresultfilename = addtoresultfilename;
   }
@@ -436,67 +502,93 @@ public class LDIFInputMeta extends BaseTransformMeta
     return addtoresultfilename;
   }
 
-  /** @return Returns the addtoresultfilename. */
+  /**
+   * @return Returns the addtoresultfilename.
+   */
   public boolean getAddToResultFilename() {
     return addtoresultfilename;
   }
 
-  /** @return Returns the rowLimit. */
+  /**
+   * @return Returns the rowLimit.
+   */
   public long getRowLimit() {
     return rowLimit;
   }
 
-  /** @param rowLimit The rowLimit to set. */
+  /**
+   * @param rowLimit The rowLimit to set.
+   */
   public void setRowLimit(long rowLimit) {
     this.rowLimit = rowLimit;
   }
 
-  /** @return Returns the rowNumberField. */
+  /**
+   * @return Returns the rowNumberField.
+   */
   public String getRowNumberField() {
     return rowNumberField;
   }
 
-  /** @param rowNumberField The rowNumberField to set. */
+  /**
+   * @param rowNumberField The rowNumberField to set.
+   */
   public void setRowNumberField(String rowNumberField) {
     this.rowNumberField = rowNumberField;
   }
 
-  /** @return Returns the filenameField. */
+  /**
+   * @return Returns the filenameField.
+   */
   public String getFilenameField() {
     return filenameField;
   }
 
-  /** @return Returns the dynamic filename field (from previous transforms) */
+  /**
+   * @return Returns the dynamic filename field (from previous transforms)
+   */
   public String getDynamicFilenameField() {
     return dynamicFilenameField;
   }
 
-  /** @param dynamicFilenameField The dynamic filename field to set. */
+  /**
+   * @param dynamicFilenameField The dynamic filename field to set.
+   */
   public void setDynamicFilenameField(String dynamicFilenameField) {
     this.dynamicFilenameField = dynamicFilenameField;
   }
 
-  /** @param filenameField The filenameField to set. */
+  /**
+   * @param filenameField The filenameField to set.
+   */
   public void setFilenameField(String filenameField) {
     this.filenameField = filenameField;
   }
 
-  /** @return Returns the contentTypeField. */
+  /**
+   * @return Returns the contentTypeField.
+   */
   public String getContentTypeField() {
     return contentTypeField;
   }
 
-  /** @param contentTypeField The contentTypeField to set. */
+  /**
+   * @param contentTypeField The contentTypeField to set.
+   */
   public void setContentTypeField(String contentTypeField) {
     this.contentTypeField = contentTypeField;
   }
 
-  /** @return Returns the DNField. */
+  /**
+   * @return Returns the DNField.
+   */
   public String getDNField() {
     return DNField;
   }
 
-  /** @param DNField The DNField to set. */
+  /**
+   * @param DNField The DNField to set.
+   */
   public void setDNField(String DNField) {
     this.DNField = DNField;
   }
@@ -527,16 +619,6 @@ public class LDIFInputMeta extends BaseTransformMeta
     }
 
     return retval;
-  }
-
-  @Override
-  public ITransform createTransform(
-      TransformMeta transformMeta,
-      LDIFInputData data,
-      int copyNr,
-      PipelineMeta pipelineMeta,
-      Pipeline pipeline) {
-    return new LDIFInput(transformMeta, this, data, copyNr, pipelineMeta, pipeline);
   }
 
   public String getXml() {

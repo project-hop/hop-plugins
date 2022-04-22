@@ -81,32 +81,44 @@ public class ActionMailValidator extends ActionBase implements Cloneable, IActio
     this.emailAddress = emailAddress;
   }
 
-  /** @return Returns the timeout. */
+  /**
+   * @return Returns the timeout.
+   */
   public String getTimeOut() {
     return timeout;
   }
 
-  /** @param timeout The timeout to set. */
+  /**
+   * @param timeout The timeout to set.
+   */
   public void setTimeOut(String timeout) {
     this.timeout = timeout;
   }
 
-  /** @return Returns the defaultSMTP. */
+  /**
+   * @return Returns the defaultSMTP.
+   */
   public String getDefaultSMTP() {
     return defaultSMTP;
   }
 
-  /** @param defaultSMTP The defaultSMTP to set. */
+  /**
+   * @param defaultSMTP The defaultSMTP to set.
+   */
   public void setDefaultSMTP(String defaultSMTP) {
     this.defaultSMTP = defaultSMTP;
   }
 
-  /** @return Returns the emailSender. */
+  /**
+   * @return Returns the emailSender.
+   */
   public String geteMailSender() {
     return emailSender;
   }
 
-  /** @param emailSender The emailSender to set. */
+  /**
+   * @param emailSender The emailSender to set.
+   */
   public void seteMailSender(String emailSender) {
     this.emailSender = emailSender;
   }

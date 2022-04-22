@@ -32,7 +32,7 @@ public class GoogleSheetsCredentials {
 
   public static final String APPLICATION_NAME = "Apache-Hop-Google-Sheets";
 
-  public static Credential getCredentialsJson( String scope, String jsonCredentialPath)
+  public static Credential getCredentialsJson(String scope, String jsonCredentialPath)
       throws IOException {
 
     Credential credential;

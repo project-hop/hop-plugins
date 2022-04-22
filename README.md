@@ -1,4 +1,8 @@
 # hop-plugins
+> **_NOTE:_**  
+> Latest Update: 2022/04/22\
+> Hop Version 2.0.0
+
 a collection of plugins that can be used with but can't or won't be shipped with Apache Hop 
 
 ## Building
@@ -13,7 +17,7 @@ You will find the plugin zip files in the various target folders of
 
 for example:
 
-`assemblies/plugins/exceloutput/target/hop-external-plugins-assemblies-exceloutput-0.70-SNAPSHOT.zip`
+`assemblies/plugins/exceloutput/target/hop-external-plugins-assemblies-exceloutput-2.0.0-SNAPSHOT.zip`
 
 ## Installing
 

@@ -21,12 +21,7 @@ import org.apache.hop.i18n.BaseMessages;
 import org.apache.hop.pipeline.transforms.mqtt.publisher.MQTTPublisherMeta;
 
 import javax.xml.bind.DatatypeConverter;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -38,9 +33,10 @@ import java.security.spec.RSAPrivateCrtKeySpec;
 
 /**
  * Class for reading RSA private key from PEM file.
+ *
  * <p>
- * <p/>It can read PEM files with PKCS#8 or PKCS#1 encodings.
- * It doesn't support encrypted PEM files.
+ *
+ * <p>It can read PEM files with PKCS#8 or PKCS#1 encodings. It doesn't support encrypted PEM files.
  */
 public class PrivateKeyReader {
 
@@ -57,49 +53,52 @@ public class PrivateKeyReader {
    *
    * @param pFile the PEM file
    * @return the {@code PrivateKey} instance
-   * @throws IOException              if a problem occurs
+   * @throws IOException if a problem occurs
    * @throws NoSuchAlgorithmException if a problem occurs
    */
-  protected static PrivateKey readKey( File pFile ) throws IOException, NoSuchAlgorithmException {
+  protected static PrivateKey readKey(File pFile) throws IOException, NoSuchAlgorithmException {
 
-    KeyFactory factory = KeyFactory.getInstance( "RSA" );
+    KeyFactory factory = KeyFactory.getInstance("RSA");
     BufferedReader br = null;
     try {
-      br = new BufferedReader( new FileReader( pFile ) );
+      br = new BufferedReader(new FileReader(pFile));
       String line = null;
       boolean reading = false;
-      while ( ( line = br.readLine() ) != null ) {
-        if ( line.contains( P1_BEGIN_MARKER ) ) {
-          byte[] keyBytes = readKeyMaterial( P1_END_MARKER, br );
-          RSAPrivateCrtKeySpec keySpec = getRSAKeySpec( keyBytes );
+      while ((line = br.readLine()) != null) {
+        if (line.contains(P1_BEGIN_MARKER)) {
+          byte[] keyBytes = readKeyMaterial(P1_END_MARKER, br);
+          RSAPrivateCrtKeySpec keySpec = getRSAKeySpec(keyBytes);
 
           try {
-            return factory.generatePrivate( keySpec );
-          } catch ( InvalidKeySpecException e ) {
+            return factory.generatePrivate(keySpec);
+          } catch (InvalidKeySpecException e) {
             throw new IOException(
-                BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPKCS1PEMFile" ) + e
-                    .getMessage() );
+                BaseMessages.getString(
+                        MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPKCS1PEMFile")
+                    + e.getMessage());
           }
         }
 
-        if ( line.contains( P8_BEGIN_MARKER ) ) {
-          byte[] keyBytes = readKeyMaterial( P8_END_MARKER, br );
-          EncodedKeySpec keySpec = new PKCS8EncodedKeySpec( keyBytes );
+        if (line.contains(P8_BEGIN_MARKER)) {
+          byte[] keyBytes = readKeyMaterial(P8_END_MARKER, br);
+          EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
 
           try {
-            return factory.generatePrivate( keySpec );
-          } catch ( InvalidKeySpecException e ) {
+            return factory.generatePrivate(keySpec);
+          } catch (InvalidKeySpecException e) {
             throw new IOException(
-                BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPKCS8PEMFile" ) + e
-                    .getMessage() );
+                BaseMessages.getString(
+                        MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPKCS8PEMFile")
+                    + e.getMessage());
           }
         }
       }
 
       throw new IOException(
-          BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPEMFileNoBeginMarker" ) );
+          BaseMessages.getString(
+              MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPEMFileNoBeginMarker"));
     } finally {
-      if ( br != null ) {
+      if (br != null) {
         br.close();
       }
     }
@@ -109,32 +108,38 @@ public class PrivateKeyReader {
    * Read the stuff between the start and end markers of a key file
    *
    * @param endMarker the end marker to watch for
-   * @param reader    the reader to read from
+   * @param reader the reader to read from
    * @return decoded base64 bytes
    * @throws IOException if a problem occurs
    */
-  private static byte[] readKeyMaterial( String endMarker, BufferedReader reader ) throws IOException {
+  private static byte[] readKeyMaterial(String endMarker, BufferedReader reader)
+      throws IOException {
     String line = null;
     StringBuffer buf = new StringBuffer();
 
-    while ( ( line = reader.readLine() ) != null ) {
-      if ( line.contains( endMarker ) ) {
+    while ((line = reader.readLine()) != null) {
+      if (line.contains(endMarker)) {
 
-        return DatatypeConverter.parseBase64Binary( buf.toString() );
+        return DatatypeConverter.parseBase64Binary(buf.toString());
       }
 
-      buf.append( line.trim() );
+      buf.append(line.trim());
     }
 
     throw new IOException(
-        BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPEMFileNoEndMarker" ) );
+        BaseMessages.getString(
+            MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidPEMFileNoEndMarker"));
   }
 
   /**
    * Convert PKCS#1 encoded private key into RSAPrivateCrtKeySpec.
+   *
    * <p>
-   * <p/>The ASN.1 syntax for the private key with CRT is
+   *
+   * <p>The ASN.1 syntax for the private key with CRT is
+   *
    * <p>
+   *
    * <pre>
    * --
    * -- Representation of RSA private key with information for the CRT algorithm.
@@ -157,15 +162,15 @@ public class PrivateKeyReader {
    * @return KeySpec
    * @throws IOException
    */
+  private static RSAPrivateCrtKeySpec getRSAKeySpec(byte[] keyBytes) throws IOException {
 
-  private static RSAPrivateCrtKeySpec getRSAKeySpec( byte[] keyBytes ) throws IOException {
-
-    DerParser parser = new DerParser( keyBytes );
+    DerParser parser = new DerParser(keyBytes);
 
     Asn1Object sequence = parser.read();
-    if ( sequence.getType() != DerParser.SEQUENCE ) {
+    if (sequence.getType() != DerParser.SEQUENCE) {
       throw new IOException(
-          BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERNotASequence" ) );
+          BaseMessages.getString(
+              MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERNotASequence"));
     }
 
     // Parse inside the sequence
@@ -181,23 +186,26 @@ public class PrivateKeyReader {
     BigInteger exp2 = parser.read().getInteger();
     BigInteger crtCoef = parser.read().getInteger();
 
-    RSAPrivateCrtKeySpec
-        keySpec =
-        new RSAPrivateCrtKeySpec( modulus, publicExp, privateExp, prime1, prime2, exp1, exp2, crtCoef );
+    RSAPrivateCrtKeySpec keySpec =
+        new RSAPrivateCrtKeySpec(
+            modulus, publicExp, privateExp, prime1, prime2, exp1, exp2, crtCoef);
 
     return keySpec;
   }
 
   /**
-   * A bare-minimum ASN.1 DER decoder, just having enough functions to
-   * decode PKCS#1 private keys. Especially, it doesn't handle explicitly
-   * tagged types with an outer tag.
+   * A bare-minimum ASN.1 DER decoder, just having enough functions to decode PKCS#1 private keys.
+   * Especially, it doesn't handle explicitly tagged types with an outer tag.
+   *
    * <p>
-   * <p/>This parser can only handle one layer. To parse nested constructs,
-   * get a new parser for each layer using <code>Asn1Object.getParser()</code>.
+   *
+   * <p>This parser can only handle one layer. To parse nested constructs, get a new parser for each
+   * layer using <code>Asn1Object.getParser()</code>.
+   *
    * <p>
-   * <p/>There are many DER decoders in JRE but using them will tie this
-   * program to a specific JCE/JVM.
+   *
+   * <p>There are many DER decoders in JRE but using them will tie this program to a specific
+   * JCE/JVM.
    *
    * @author zhang
    */
@@ -250,7 +258,7 @@ public class PrivateKeyReader {
      *
      * @param in The DER encoded stream
      */
-    public DerParser( InputStream in ) throws IOException {
+    public DerParser(InputStream in) throws IOException {
       this.in = in;
     }
 
@@ -260,14 +268,13 @@ public class PrivateKeyReader {
      * @param bytes encoded bytes
      * @throws IOException
      */
-    public DerParser( byte[] bytes ) throws IOException {
-      this( new ByteArrayInputStream( bytes ) );
+    public DerParser(byte[] bytes) throws IOException {
+      this(new ByteArrayInputStream(bytes));
     }
 
     /**
-     * Read next object. If it's constructed, the value holds
-     * encoded content and it should be parsed by a new
-     * parser from <code>Asn1Object.getParser</code>.
+     * Read next object. If it's constructed, the value holds encoded content and it should be
+     * parsed by a new parser from <code>Asn1Object.getParser</code>.
      *
      * @return A object
      * @throws IOException
@@ -275,37 +282,39 @@ public class PrivateKeyReader {
     public Asn1Object read() throws IOException {
       int tag = in.read();
 
-      if ( tag == -1 ) {
+      if (tag == -1) {
         throw new IOException(
-            BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERStreamToShortMissingTag" ) );
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERStreamToShortMissingTag"));
       }
 
       int length = getLength();
 
       byte[] value = new byte[length];
-      int n = in.read( value );
-      if ( n < length ) {
-        throw new IOException( BaseMessages
-            .getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERStreamToShortMissingValue" ) );
+      int n = in.read(value);
+      if (n < length) {
+        throw new IOException(
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERStreamToShortMissingValue"));
       }
 
-      Asn1Object o = new Asn1Object( tag, length, value );
+      Asn1Object o = new Asn1Object(tag, length, value);
 
       return o;
     }
 
     /**
-     * Decode the length of the field. Can only support length
-     * encoding up to 4 octets.
+     * Decode the length of the field. Can only support length encoding up to 4 octets.
+     *
      * <p>
-     * <p/>In BER/DER encoding, length can be encoded in 2 forms,
+     *
+     * <p>In BER/DER encoding, length can be encoded in 2 forms,
+     *
      * <ul>
-     * <li>Short form. One octet. Bit 8 has value "0" and bits 7-1
-     * give the length.
-     * <li>Long form. Two to 127 octets (only 4 is supported here).
-     * Bit 8 of first octet has value "1" and bits 7-1 give the
-     * number of additional length octets. Second and following
-     * octets give the length, base 256, most significant digit first.
+     *   <li>Short form. One octet. Bit 8 has value "0" and bits 7-1 give the length.
+     *   <li>Long form. Two to 127 octets (only 4 is supported here). Bit 8 of first octet has value
+     *       "1" and bits 7-1 give the number of additional length octets. Second and following
+     *       octets give the length, base 256, most significant digit first.
      * </ul>
      *
      * @return The length as integer
@@ -314,38 +323,40 @@ public class PrivateKeyReader {
     private int getLength() throws IOException {
 
       int i = in.read();
-      if ( i == -1 ) {
-        throw new IOException( BaseMessages
-            .getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERLengthMissing" ) );
+      if (i == -1) {
+        throw new IOException(
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERLengthMissing"));
       }
 
       // A single byte short length
-      if ( ( i & ~0x7F ) == 0 ) {
+      if ((i & ~0x7F) == 0) {
         return i;
       }
 
       int num = i & 0x7F;
 
       // We can't handle length longer than 4 bytes
-      if ( i >= 0xFF || num > 4 ) {
+      if (i >= 0xFF || num > 4) {
         throw new IOException(
-            BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERFieldTooBig", i ) );
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERFieldTooBig", i));
       }
 
       byte[] bytes = new byte[num];
-      int n = in.read( bytes );
-      if ( n < num ) {
+      int n = in.read(bytes);
+      if (n < num) {
         throw new IOException(
-            BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERLengthTooShort" ) );
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERLengthTooShort"));
       }
 
-      return new BigInteger( 1, bytes ).intValue();
+      return new BigInteger(1, bytes).intValue();
     }
   }
 
   /**
-   * An ASN.1 TLV. The object is not parsed. It can
-   * only handle integers and strings.
+   * An ASN.1 TLV. The object is not parsed. It can only handle integers and strings.
    *
    * @author zhang
    */
@@ -357,10 +368,12 @@ public class PrivateKeyReader {
     protected final int tag;
 
     /**
-     * Construct a ASN.1 TLV. The TLV could be either a
-     * constructed or primitive entity.
+     * Construct a ASN.1 TLV. The TLV could be either a constructed or primitive entity.
+     *
      * <p>
-     * <p/>The first byte in DER encoding is made of following fields,
+     *
+     * <p>The first byte in DER encoding is made of following fields,
+     *
      * <pre>
      * -------------------------------------------------
      * |Bit 8|Bit 7|Bit 6|Bit 5|Bit 4|Bit 3|Bit 2|Bit 1|
@@ -368,19 +381,19 @@ public class PrivateKeyReader {
      * |  Class    | CF  |     +      Type             |
      * -------------------------------------------------
      * </pre>
+     *
      * <ul>
-     * <li>Class: Universal, Application, Context or Private
-     * <li>CF: Constructed flag. If 1, the field is constructed.
-     * <li>Type: This is actually called tag in ASN.1. It
-     * indicates data type (Integer, String) or a construct
-     * (sequence, choice, set).
+     *   <li>Class: Universal, Application, Context or Private
+     *   <li>CF: Constructed flag. If 1, the field is constructed.
+     *   <li>Type: This is actually called tag in ASN.1. It indicates data type (Integer, String) or
+     *       a construct (sequence, choice, set).
      * </ul>
      *
-     * @param tag    Tag or Identifier
+     * @param tag Tag or Identifier
      * @param length Length of the field
-     * @param value  Encoded octet string for the field.
+     * @param value Encoded octet string for the field.
      */
-    public Asn1Object( int tag, int length, byte[] value ) {
+    public Asn1Object(int tag, int length, byte[] value) {
       this.tag = tag;
       this.type = tag & 0x1F;
       this.length = length;
@@ -400,7 +413,7 @@ public class PrivateKeyReader {
     }
 
     public boolean isConstructed() {
-      return ( tag & DerParser.CONSTRUCTED ) == DerParser.CONSTRUCTED;
+      return (tag & DerParser.CONSTRUCTED) == DerParser.CONSTRUCTED;
     }
 
     /**
@@ -410,12 +423,13 @@ public class PrivateKeyReader {
      * @throws IOException
      */
     public DerParser getParser() throws IOException {
-      if ( !isConstructed() ) {
-        throw new IOException( BaseMessages
-            .getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERCantParsePrimitive" ) );
+      if (!isConstructed()) {
+        throw new IOException(
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERCantParsePrimitive"));
       }
 
-      return new DerParser( value );
+      return new DerParser(value);
     }
 
     /**
@@ -425,17 +439,17 @@ public class PrivateKeyReader {
      * @throws IOException
      */
     public BigInteger getInteger() throws IOException {
-      if ( type != DerParser.INTEGER ) {
+      if (type != DerParser.INTEGER) {
         throw new IOException(
-            BaseMessages.getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERObjectIsNotAnInteger" ) );
+            BaseMessages.getString(
+                MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERObjectIsNotAnInteger"));
       }
 
-      return new BigInteger( value );
+      return new BigInteger(value);
     }
 
     /**
-     * Get value as string. Most strings are treated
-     * as Latin-1.
+     * Get value as string. Most strings are treated as Latin-1.
      *
      * @return Java string
      * @throws IOException
@@ -444,9 +458,9 @@ public class PrivateKeyReader {
 
       String encoding;
 
-      switch ( type ) {
+      switch (type) {
 
-        // Not all are Latin-1 but it's the closest thing
+          // Not all are Latin-1 but it's the closest thing
         case DerParser.NUMERIC_STRING:
         case DerParser.PRINTABLE_STRING:
         case DerParser.VIDEOTEX_STRING:
@@ -466,15 +480,17 @@ public class PrivateKeyReader {
           break;
 
         case DerParser.UNIVERSAL_STRING:
-          throw new IOException( BaseMessages
-              .getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERCantHandleUCS4String" ) );
+          throw new IOException(
+              BaseMessages.getString(
+                  MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERCantHandleUCS4String"));
 
         default:
-          throw new IOException( BaseMessages
-              .getString( MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERObjectIsNotAString" ) );
+          throw new IOException(
+              BaseMessages.getString(
+                  MQTTPublisherMeta.PKG, "MQTTClientSSL.Error.InvalidDERObjectIsNotAString"));
       }
 
-      return new String( value, encoding );
+      return new String(value, encoding);
     }
   }
 }

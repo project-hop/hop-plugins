@@ -30,18 +30,10 @@ import org.w3c.dom.Node;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
 import java.util.zip.ZipInputStream;
 
-/**
- * @author Samatar Hassan
- * @since 24-May-2005
- */
 public class LDIFInputData extends BaseTransformData implements ITransformData {
   public String thisline, nextline, lastline;
   // public Row previousRow;
