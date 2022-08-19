@@ -24,3 +24,18 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package
+    - name: make artifact dir 
+      run: mkdir artifacts 
+    - name: step 2 - Add artifacts to publish to the temp folder
+        run: |
+          for i in $(ls assemblies/plugins) ; 
+            do 
+              cp assemblies/plugins/$i/hop-*.zip artifacts/
+            ; 
+            done
+    
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: artifacts
