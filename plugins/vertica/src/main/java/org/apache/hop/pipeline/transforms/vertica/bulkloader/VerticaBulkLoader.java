@@ -43,12 +43,10 @@ import org.apache.hop.pipeline.transforms.vertica.bulkloader.nativebinary.Stream
 import javax.sql.PooledConnection;
 import java.io.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
@@ -382,7 +380,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
         "Column type " + targetColumnTypeName + " not supported."); // $NON-NLS-1$
   }
 
-  private void initializeWorker() {
+  private void initializeWorker(){
     final String dml = buildCopyStatementSqlString();
 
     data.workerThread =
@@ -405,7 +403,7 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
                                 rowsLoaded, getLinesOutput()));
                       }
                       data.db.disconnect();
-                    } catch (SQLException | IllegalStateException e) {
+                    } catch (SQLException | IllegalStateException | ClassNotFoundException | HopException e) {
                       if (e.getCause() instanceof InterruptedIOException) {
                         logBasic("SQL statement interrupted by halt of pipeline");
                       } else {
@@ -644,13 +642,18 @@ public class VerticaBulkLoader extends BaseTransform<VerticaBulkLoaderMeta, Vert
   }
 
   @VisibleForTesting
-  VerticaCopyStream createVerticaCopyStream(String dml) throws SQLException {
+  VerticaCopyStream createVerticaCopyStream(String dml) throws SQLException, ClassNotFoundException, HopDatabaseException {
     return new VerticaCopyStream(getVerticaConnection(), dml);
   }
 
   @VisibleForTesting
-  VerticaConnection getVerticaConnection() throws SQLException {
-    Connection conn = data.db.getConnection();
+  VerticaConnection getVerticaConnection() throws SQLException, ClassNotFoundException, HopDatabaseException {
+    Class.forName(data.databaseMeta.getDriverClass(variables));
+    Properties props = data.databaseMeta.getConnectionProperties(variables);
+    props.put("user", variables.resolve(data.databaseMeta.getUsername()));
+    props.put("password", variables.resolve(data.databaseMeta.getPassword()));
+    Connection conn = DriverManager.getConnection(data.databaseMeta.getURL(variables), props);
+//    Connection conn = data.db.getConnection();
     if (conn != null) {
       if (conn instanceof VerticaConnection) {
         return (VerticaConnection) conn;
