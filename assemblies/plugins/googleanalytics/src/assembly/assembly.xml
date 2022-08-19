@@ -22,7 +22,7 @@
     <formats>
         <format>zip</format>
     </formats>
-    <baseDirectory>tech/google</baseDirectory>
+    <baseDirectory>transforms/googleanalytics</baseDirectory>
     <files>
         <file>
             <source>${project.basedir}/src/main/resources/version.xml</source>
@@ -48,9 +48,15 @@
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
             <useProjectArtifact>false</useProjectArtifact>
-            <scope>runtime</scope>
             <includes>
-                <include>org.eclipse.paho:org.eclipse.paho.client.mqttv3:jar</include>
+                <include>com.google.apis:google-api-services-analytics:jar</include>
+                <include>com.google.api-client:google-api-client:jar</include>
+                <include>com.google.oauth-client:google-oauth-client:jar</include>
+                <include>com.google.http-client:google-http-client-jackson2:jar</include>
+                <include>com.google.http-client:google-http-client:jar</include>
+                <include>io.grpc:grpc-context:jar</include>
+                <include>io.opencensus:opencensus-api:jar</include>
+                <include>io.opencensus:opencensus-contrib-http-util:jar</include>
             </includes>
         </dependencySet>
     </dependencySets>

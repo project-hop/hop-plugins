@@ -26,8 +26,9 @@ Lets you pick your Google service account client secret json file. The `Test` bu
 
 === How to get a key file?
 
-First, make sure to enable the https://console.cloud.google.com/marketplace/product/google/sheets.googleapis.com[Sheets API]. Then create a service account. Go to your https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts[Google Cloud Platform console] and create a service account.  Once that is done you can export a credentials JSON key file for the service account of your choice.
+First, make sure to enable the https://console.cloud.google.com/marketplace/product/google/sheets.googleapis.com[Google Sheets API] and https://console.cloud.google.com/marketplace/product/google/drive.googleapis.com[Google Drive API].
 
+The second thing you need is a service account. Go to your https://console.cloud.google.com/projectselector2/iam-admin/serviceaccounts[Google Cloud Platform console] and create a service account.  Once that is done you can export a credentials JSON key file for the service account of your choice.
 
 == Spreadsheet tab
 
