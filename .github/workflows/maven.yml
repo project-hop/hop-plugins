@@ -28,11 +28,7 @@ jobs:
       run: mkdir artifacts 
     - name: step 2 - Add artifacts to publish to the temp folder
       run: |
-        for i in $(ls assemblies/plugins) ; 
-          do 
-            cp assemblies/plugins/$i/hop-*.zip artifacts/
-          ; 
-          done  
+        for i in $(find assemblies/plugins/ -type f -name "*.zip") ; do cp $i artifacts/ ; done 
     - name: upload artifacts
       uses: actions/upload-artifact@v2
       with: 
