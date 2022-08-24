@@ -29,11 +29,16 @@ jobs:
     - name: step 2 - Add artifacts to publish to the temp folder
       run: |
         for i in $(find assemblies/plugins/ -type f -name "*.zip") ; do echo "copying " $i " to artifacts/" && cp $i artifacts/ ; done 
-    - name: Archive Release
-      uses: thedoctor0/zip-release@main
+    - uses: ncipollo/release-action@v1
       with:
-        type: 'zip'
-        directory: artifacts/
+        artifacts: "artifacts/*.zip"
+#        bodyFile: "body.md"
+        token: ${{ secrets.YOUR_GITHUB_TOKEN }}        
+#    - name: Archive Release
+#      uses: thedoctor0/zip-release@main
+#      with:
+#        type: 'zip'
+#        directory: artifacts/
 #        exclusions: '*.git* /*node_modules/* .editorconfig'
 #    - name: Upload binaries to release
 #      uses: svenstaro/upload-release-action@v2
