@@ -28,9 +28,10 @@ jobs:
       run: mkdir artifacts 
     - name: step 2 - Add artifacts to publish to the temp folder
       run: |
-        for i in $(find assemblies/plugins/ -type f -name "*.zip") ; do cp $i artifacts/ ; done 
+        for i in $(find assemblies/plugins/ -type f -name "*.zip") ; do echo "copying " $i " to artifacts/" && cp $i artifacts/ ; done 
     - name: upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with: 
         name: assets-for-download
-        path: artifacts
+        path: artifacts/*.zip
+        if-no-files-found: error
