@@ -32,8 +32,10 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "artifacts/*.zip"
+        allowUpdates: true
 #        bodyFile: "body.md"
-        token: ${{ secrets.GITHUB_TOKEN }}        
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: latest
 #    - name: Archive Release
 #      uses: thedoctor0/zip-release@main
 #      with:
