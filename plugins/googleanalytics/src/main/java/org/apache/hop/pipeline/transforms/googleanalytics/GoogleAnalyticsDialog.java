@@ -1195,7 +1195,8 @@ public class GoogleAnalyticsDialog extends BaseTransformDialog implements ITrans
     return null;
   }
 
-  protected void setActive() {
+  @Override
+  public void setActive() {
     boolean segment = wUseSegmentEnabled.getSelection();
     wCustomSegmentEnabled.setEnabled(segment);
 
