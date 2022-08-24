@@ -15,45 +15,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: checkout code 
+      uses: actions/checkout@v3
+    - name: set up JDK 11
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
+    - name: maven build
       run: mvn -B package
     - name: make artifact dir 
       run: mkdir artifacts 
-    - name: step 2 - Add artifacts to publish to the temp folder
+    - name: add artifacts to publish
       run: |
         for i in $(find assemblies/plugins/ -type f -name "*.zip") ; do echo "copying " $i " to artifacts/" && cp $i artifacts/ ; done 
-    - uses: ncipollo/release-action@v1
+    - name: publish release artifacts
+      uses: ncipollo/release-action@v1
       with:
         artifacts: "artifacts/*.zip"
         allowUpdates: true
-#        bodyFile: "body.md"
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: latest
-#    - name: Archive Release
-#      uses: thedoctor0/zip-release@main
-#      with:
-#        type: 'zip'
-#        directory: artifacts/
-#        exclusions: '*.git* /*node_modules/* .editorconfig'
-#    - name: Upload binaries to release
-#      uses: svenstaro/upload-release-action@v2
-#      with:
-#        repo_token: ${{ secrets.GITHUB_TOKEN }}
-#        file: artifacts/
-#         asset_name: mything
-#        tag: ${{ github.ref }}
-#        overwrite: true
-#         body: "This is my release text"        
-#     - name: upload artifacts
-#       uses: actions/upload-artifact@v3
-#       with: 
-#        name: assets-for-download
-#        path: artifacts/*.zip
-#        if-no-files-found: error
