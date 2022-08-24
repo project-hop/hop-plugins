@@ -33,7 +33,7 @@ jobs:
       with:
         artifacts: "artifacts/*.zip"
 #        bodyFile: "body.md"
-        token: ${{ secrets.YOUR_GITHUB_TOKEN }}        
+        token: ${{ secrets.GITHUB_TOKEN }}        
 #    - name: Archive Release
 #      uses: thedoctor0/zip-release@main
 #      with:
