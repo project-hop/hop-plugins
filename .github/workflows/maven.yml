@@ -4,14 +4,11 @@
 name: Hop external plugins build
 
 on:
-  push:
-    branches: [ "github-actions" ]
   pull_request:
-    branches: [ "github-actions" ]
+    branches: [ "main" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
