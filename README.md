@@ -1,7 +1,7 @@
 # hop-plugins
 > **_NOTE:_**  
-> Latest Update: 2022/08/18\
-> Hop Version 2.1.0
+> Latest Update: 2023-12-01 \
+> Hop Version 2.8.0-SNAPSHOT
 
 a collection of plugins that can be used with but can't or won't be shipped with Apache Hop 
 
