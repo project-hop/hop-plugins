@@ -3,6 +3,8 @@
 > Latest Update: 2023-12-01 \
 > Hop Version 2.8.0-SNAPSHOT
 
+[![Hop external plugins build](https://github.com/project-hop/hop-plugins/actions/workflows/maven.yml/badge.svg)](https://github.com/project-hop/hop-plugins/actions/workflows/maven.yml)
+
 a collection of plugins that can be used with but can't or won't be shipped with Apache Hop 
 
 ## Building
