@@ -19,6 +19,7 @@ package org.apache.hop.pipeline.transforms.mailvalidator;
 
 import org.apache.hop.core.Const;
 import org.apache.hop.core.exception.HopException;
+import org.apache.hop.core.logging.LogChannel;
 import org.apache.hop.core.row.RowDataUtil;
 import org.apache.hop.core.util.Utils;
 import org.apache.hop.i18n.BaseMessages;
@@ -153,7 +154,7 @@ public class MailValidator extends BaseTransform<MailValidatorMeta, MailValidato
         // Check if address is valid
         MailValidationResult result =
             MailValidation.isAddressValid(
-                log,
+                new LogChannel("Mail Validator"),
                 emailaddress,
                 data.realemailSender,
                 data.realdefaultSMTPServer,
@@ -185,7 +186,7 @@ public class MailValidator extends BaseTransform<MailValidatorMeta, MailValidato
 
       putRow(data.outputRowMeta, outputRow); // copy row to output rowset(s);
 
-      if (log.isRowLevel()) {
+      if (isRowLevel()) {
         logRowlevel(
             BaseMessages.getString(
                 PKG,
