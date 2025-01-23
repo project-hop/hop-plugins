@@ -182,7 +182,7 @@ public class DropboxInput extends BaseTransform<DropboxInputMeta, DropboxInputDa
     DbxRequestConfig requestConfig = new DbxRequestConfig("examples-download-file");
     DbxClientV2 dbxClient = new DbxClientV2(requestConfig, accessToken);
 
-    log.logBasic(BaseMessages.getString(PKG, "DropboxInput.log.Downloading", sourceFile));
+    logBasic(BaseMessages.getString(PKG, "DropboxInput.log.Downloading", sourceFile));
     DbxDownloader<FileMetadata> downloader = null;
     try {
       downloader = dbxClient.files().download(sourceFile);
@@ -213,7 +213,7 @@ public class DropboxInput extends BaseTransform<DropboxInputMeta, DropboxInputDa
       putFailedTransferRow(r);
       return true;
     }
-    log.logBasic(BaseMessages.getString(PKG, "DropboxInput.log.Downloaded", targetFile));
+    logBasic(BaseMessages.getString(PKG, "DropboxInput.log.Downloaded", targetFile));
 
     putSuccessfulTransferRow(r); // Transfer has succeeded.
 

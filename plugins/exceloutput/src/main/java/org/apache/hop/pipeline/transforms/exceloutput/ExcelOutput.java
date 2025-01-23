@@ -137,7 +137,7 @@ public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData>
     putRow( data.previousMeta, r ); // in case we want it to go further...
 
     if ( checkFeedback( getLinesOutput() ) ) {
-      if ( log.isBasic() ) {
+      if ( isBasic() ) {
         logBasic( "linenr " + getLinesOutput() );
       }
     }
@@ -469,7 +469,7 @@ public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData>
       }
       data.realFilename = HopVfs.getFilename( data.file );
       addFilenameToResult();
-      if ( log.isDebug() ) {
+      if ( isDebug() ) {
         logDebug( BaseMessages.getString( PKG, "ExcelOutput.Log.OpeningFile", data.realFilename ) );
       }
 
@@ -568,7 +568,7 @@ public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData>
       data.headerWrote = false;
       data.splitnr++;
       data.oneFileOpened = true;
-      if ( log.isDebug() ) {
+      if ( isDebug() ) {
         logDebug( BaseMessages.getString( PKG, "ExcelOutput.Log.FileOpened", data.file.toString() ) );
       }
       retval = true;
@@ -656,7 +656,7 @@ public class ExcelOutput extends BaseTransform<ExcelOutputMeta, ExcelOutputData>
         }
       }
       data.formats.clear();
-      if ( log.isDebug() ) {
+      if ( isDebug() ) {
         logDebug( BaseMessages.getString( PKG, "ExcelOutput.Log.FileClosed", filename ) );
       }
 

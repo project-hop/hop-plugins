@@ -203,7 +203,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
     // upload the file with simple upload API if it is small enough, otherwise use chunked
     // upload API for better performance. Arbitrarily chose 2 times our chunk size as the
     // deciding factor. This should really depend on your network.
-    log.logBasic(BaseMessages.getString(PKG, "DropboxOutput.log.Uploading", sourceFile));
+    logBasic(BaseMessages.getString(PKG, "DropboxOutput.log.Uploading", sourceFile));
     if (localFile.length() <= (2 * data.CHUNKED_UPLOAD_CHUNK_SIZE)) {
       if (!uploadFile(dbxClient, localFile, targetFile)) {
         putFailedTransferRow(r);
@@ -215,7 +215,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
         return true;
       }
     }
-    log.logBasic(BaseMessages.getString(PKG, "DropboxOutput.log.Uploaded", targetFile));
+    logBasic(BaseMessages.getString(PKG, "DropboxOutput.log.Uploaded", targetFile));
 
     putSuccessfulTransferRow(r); // Transfer has succeeded.
 
@@ -261,7 +261,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
               .withClientModified(new Date(localFile.lastModified()))
               .uploadAndFinish(in, progressListener);
 
-      log.logDetailed(metadata.toStringMultiline());
+      logDetailed(metadata.toStringMultiline());
     } catch (UploadErrorException ex) {
       logError(BaseMessages.getString(PKG, "DropboxOutput.Log.UploadError", ex.getMessage()));
       return false;
@@ -293,7 +293,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
     // assert our file is at least the chunk upload size. We make this assumption in the code
     // below to simplify the logic.
     if (size < data.CHUNKED_UPLOAD_CHUNK_SIZE) {
-      log.logError(BaseMessages.getString(PKG, "DropboxOutput.Log.FileTooSmall"));
+      logError(BaseMessages.getString(PKG, "DropboxOutput.Log.FileTooSmall"));
       return false;
     }
 
@@ -323,7 +323,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
     String sessionId = null;
     for (int i = 0; i < data.CHUNKED_UPLOAD_MAX_ATTEMPTS; ++i) {
       if (i > 0) {
-        log.logDetailed(
+        logDetailed(
             String.format(
                 "Retrying chunked upload (%d / %d attempts)\n",
                 i + 1, data.CHUNKED_UPLOAD_MAX_ATTEMPTS));
@@ -371,7 +371,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
                 .uploadSessionFinish(cursor, commitInfo)
                 .uploadAndFinish(in, remaining, progressListener);
 
-        log.logBasic(metadata.toStringMultiline());
+        logBasic(metadata.toStringMultiline());
         return true;
       } catch (RetryException ex) {
         thrown = ex;
@@ -392,7 +392,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
           continue;
         } else {
           // Some other error occurred, give up.
-          log.logError(
+          logError(
               BaseMessages.getString(PKG, "DropboxOutput.Log.UploadError", ex.getMessage()));
           return false;
         }
@@ -407,15 +407,15 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
           continue;
         } else {
           // some other error occurred, give up.
-          log.logError(
+          logError(
               BaseMessages.getString(PKG, "DropboxOutput.Log.UploadError", ex.getMessage()));
           return false;
         }
       } catch (DbxException ex) {
-        log.logError(BaseMessages.getString(PKG, "DropboxOutput.Log.UploadError", ex.getMessage()));
+        logError(BaseMessages.getString(PKG, "DropboxOutput.Log.UploadError", ex.getMessage()));
         return false;
       } catch (IOException ex) {
-        log.logError(
+        logError(
             BaseMessages.getString(
                 PKG, "DropboxOutput.Log.ErrorReadingFile", localFile.getName(), ex.getMessage()));
         return false;
@@ -423,7 +423,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
     }
 
     // if we made it here, then we must have run out of attempts
-    log.logError(
+    logError(
         BaseMessages.getString(PKG, "DropboxOutput.Log.TooManyAttempts", thrown.getMessage()));
     return false;
   }
@@ -440,7 +440,7 @@ public class DropboxOutput extends BaseTransform<DropboxOutputMeta, DropboxOutpu
       Thread.sleep(millis);
     } catch (InterruptedException ex) {
       // just exit
-      log.logError(BaseMessages.getString(PKG, "DropboxOutput.Log.Error.Interrupted"));
+      logError(BaseMessages.getString(PKG, "DropboxOutput.Log.Error.Interrupted"));
     }
   }
 }
