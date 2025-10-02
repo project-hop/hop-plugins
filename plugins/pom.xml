@@ -23,7 +23,7 @@
 
   <groupId>org.apache.hop</groupId>
   <artifactId>hop-external-plugins</artifactId>
-  <version>2.12.0</version>
+  <version>2.15.0</version>
   <packaging>pom</packaging>
 
   <name>Hop external plugins</name>
@@ -31,7 +31,7 @@
   <parent>
     <groupId>org.apache.hop</groupId>
     <artifactId>hop-external</artifactId>
-    <version>2.12.0</version>
+    <version>2.15.0</version>
   </parent>
 
   <profiles>

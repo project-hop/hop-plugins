@@ -1,7 +1,7 @@
 # hop-plugins
 > **_NOTE:_**  
 > Latest Update: 2025-01-23 \
-> Hop Version 2.12.0
+> Hop Version 2.15.0
 
 [![Hop external plugins build](https://github.com/project-hop/hop-plugins/actions/workflows/maven.yml/badge.svg)](https://github.com/project-hop/hop-plugins/actions/workflows/maven.yml)
 
@@ -19,7 +19,7 @@ You will find the plugin zip files in the various target folders of
 
 for example:
 
-`assemblies/plugins/exceloutput/target/hop-external-plugins-assemblies-exceloutput-2.12.0.zip`
+`assemblies/plugins/exceloutput/target/hop-external-plugins-assemblies-exceloutput-2.15.0.zip`
 
 ## Installing
 
